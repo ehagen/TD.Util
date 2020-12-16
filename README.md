@@ -1,6 +1,6 @@
 # TD.Util
 
-This module contains collection general utility functions for PowerShell
+This module contains collection general utility functions for PowerShell and Azure
 
 - Azure DevOps Utilities
 

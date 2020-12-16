@@ -14,5 +14,9 @@ Task Build -FromModule PowerShellBuild
 Task default -depends PublishModule
 
 Task PublishModule -depends Build {
-    #Publish-Module -Path (Join-Path $PSScriptRoot 'Output/TD.Util') -NugetAPIKey $env:PsGalleryApiKey #-WhatIf -Verbose
+    if ($false)
+    {
+        Publish-Module -Path (Join-Path $PSScriptRoot 'Output/TD.Util') -NugetAPIKey $env:PsGalleryApiKey #-WhatIf -Verbose
+        Write-Host 'Published to https://www.powershellgallery.com/packages/TD.Util'
+    }
 }

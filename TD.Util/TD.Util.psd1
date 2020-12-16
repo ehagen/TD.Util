@@ -1,6 +1,6 @@
 @{
     RootModule        = 'TD.Util.psm1'
-    ModuleVersion     = '0.1.1'
+    ModuleVersion     = '0.1.2'
     GUID              = '62f2ff10-4b3c-4464-b863-e7352e07468e'
     Author            = 'Edwin Hagen'
     CompanyName       = 'Tedon Technology BV'
@@ -20,6 +20,8 @@
             # IconUri = ''
             ReleaseNotes = '
 0.1.1 - Initial version
+
+0.1.2 - Added Add-TokensFromAzureKeyVault, Add-TokensFromConfig and Convert-TokensInFile
             '
         }
     }
