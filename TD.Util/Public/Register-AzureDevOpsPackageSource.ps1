@@ -19,6 +19,17 @@ Register-AzureDevOpsPackageSource -Name myFeed -Url https://pkgs.dev.azure.com/m
 #>
 function Register-AzureDevOpsPackageSource($Name, $Url, [System.Management.Automation.PSCredential]$Credential)
 {
+    if ($Credential)
+    {
+        try 
+        {
+            Invoke-WebRequest -Uri $Url -Credential $Credential | Out-Null # check for access to artifacts with credential
+        }
+        catch {
+            Throw "Register-AzureDevOpsPackageSource error for $Url : $($_.Exception.Message)"
+        }
+    }
+
     if (Get-PSRepository -Name $Name -ErrorAction Ignore) { Unregister-PSRepository -Name $Name }
     Register-PSRepository -Name $Name -SourceLocation $Url -InstallationPolicy Trusted -Credential $Credential
 }
