@@ -34,8 +34,8 @@ function Add-TokensFromAzureKeyVault($Vault, $Tokens, $SubscriptionId, $ServiceP
 
     if ($null -eq (Get-Module -ListAvailable 'Az'))
     {
-        Install-Module -Name Az -AllowClobber -Scope CurrentUser -Repository PSGallery
-        Install-Module -Name Az.Accounts -AllowClobber -Scope CurrentUser -Repository PSGallery
+        Install-Module -Name Az -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
+        Install-Module -Name Az.Accounts -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
     }
     else
     {
