@@ -23,6 +23,11 @@ Add-TokensFromAzureKeyVault -Vault 'MyVaultName' -Tokens $Tokens -SubscriptionId
 #>
 function Add-TokensFromAzureKeyVault($Vault, $Tokens, $SubscriptionId, $ServicePrincipal)
 {
+    Write-Verbose "Add-TokensFromAzureKeyVault"
+    Write-Verbose "           Vault: $Vault"
+    Write-Verbose "  SubscriptionId: $SubscriptionId"
+    Write-Verbose "ServicePrincipal: $ServicePrincipal"
+
     function Add-Secret($Name, $Value)
     {
         if (!$Tokens.ContainsKey($Name))
@@ -45,13 +50,18 @@ function Add-TokensFromAzureKeyVault($Vault, $Tokens, $SubscriptionId, $ServiceP
 
     if (!!$env:SYSTEM_TEAMPROJECT)
     {
+        Write-Verbose 'Connect to azure with Azure Cli configuration'
         $token = $(az account get-access-token --query accessToken --output tsv)
         $id = $(az account show --query user.name --output tsv)
-        Connect-AzAccount -AccessToken $token -AccountId $id -Scope Process
+
+        if ($token -and $id)
+        {
+            Connect-AzAccount -AccessToken $token -AccountId $id -Scope Process
+        }
     }
     else
     {
-        if ($ServicePrincipal )
+        if ($ServicePrincipal)
         {
             Connect-AzAccount -ServicePrincipal $ServicePrincipal
         }
@@ -63,6 +73,7 @@ function Add-TokensFromAzureKeyVault($Vault, $Tokens, $SubscriptionId, $ServiceP
             {
                 if ($ctx.Subscription.Id -eq $SubscriptionId)
                 {
+                    Write-Verbose "Select context: $($ctx.Name)"
                     Select-AzContext -Name $ctx.Name
                     break
                 }
@@ -74,6 +85,11 @@ function Add-TokensFromAzureKeyVault($Vault, $Tokens, $SubscriptionId, $ServiceP
     if (-not $azProfile.Accounts.Count)
     {
         Throw "Powershell Az error: Ensure you are logged in."
+    }
+    else
+    {
+        Write-Verbose "Az Account: $($azProfile.DefaultContext.Account.Id)"
+        Write-Verbose "Az Subscription: $($azProfile.DefaultContext.Subscription.Name) - $($azProfile.DefaultContext.Subscription.Id)"
     }
 
     $warning = (Get-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings -ErrorAction Ignore) -eq 'true'
