@@ -1,6 +1,6 @@
 @{
     RootModule        = 'TD.Util.psm1'
-    ModuleVersion     = '0.1.3'
+    ModuleVersion     = '0.1.4'
     GUID              = '62f2ff10-4b3c-4464-b863-e7352e07468e'
     Author            = 'Edwin Hagen'
     CompanyName       = 'Tedon Technology BV'
@@ -25,7 +25,9 @@
 
 0.1.3 - Added access check to Register-AzureDevOpsPackageSource
       - Added force install Az modules in Add-TokensFromAzureKeyVault
-            '
+
+0.1.4 - Updated Add-TokensFromAzureKeyVault with more diagnostics and preventing issue connecting Azure when running in Azure DevOps
+            '            
         }
     }
 }
