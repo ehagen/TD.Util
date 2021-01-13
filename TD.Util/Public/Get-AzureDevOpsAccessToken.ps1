@@ -11,7 +11,7 @@ Url of the Azure DevOps subscription like  https://(mycompany)@dev.azure.com/(my
 .Example
 $token = Get-AzureDevOpsAccessToken 'https://mycompany@dev.azure.com/mycompany')
 #>
-function Get-AzureDevOpsAccessToken($Url)
+function Get-AzureDevOpsAccessToken([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Url)
 {
     $token = $env:SYSTEM_ACCESSTOKEN
     if ([string]::IsNullOrEmpty($token))
@@ -23,7 +23,7 @@ function Get-AzureDevOpsAccessToken($Url)
         {
             Throw "No Azure DevOps credentials found in credential store"
         }
-        Write-Verbose "Use Azure DevOps Access Token from Windows Credential Store"
+        Write-Verbose "Using Azure DevOps Access Token from Windows Credential Store"
         $token = $credential.GetNetworkCredential().Password
     }
     return $token

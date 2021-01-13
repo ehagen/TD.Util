@@ -29,7 +29,7 @@ Personal AccessToken used for Azure DevOps Feed push/publish
 Publish-PackageToAzureDevOps -ModuleName 'MyModule' -ModulePath './Output' -Feedname 'MyFeed' -FeedUrl 'https://pkgs.dev.azure.com/mycompany/_packaging/MyFeed/nuget/v2' -AccessToken 'sasasasa'
 
 #>
-function Publish-PackageToAzureDevOps($ModuleName, $ModulePath = './Output', $Feedname, $FeedUrl, $AccessToken)
+function Publish-PackageToAzureDevOps([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$ModuleName, $ModulePath = './Output', [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Feedname, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$FeedUrl, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$AccessToken)
 {
     $packageSource = $Feedname
     $packageFeedUrl = $FeedUrl

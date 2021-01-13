@@ -3,7 +3,7 @@
 Get Azure Keyvault secrets and add them to token collection
 
 .DESCRIPTION
-Get secrets from Azure Keyvault and add them to token collection
+Get secrets from Azure Keyvault and add them to token collection, use default logged-in account to Azure or try to get it from 'az cli'
 
 .PARAMETER Vault
 Name of the Azure KeyVault
@@ -14,82 +14,32 @@ Hashtable to add secrets to
 .PARAMETER SubscriptionId
 Azure Subscription ID
 
-.PARAMETER ServicePrincipal
-Azure ServicePrincipal ID
-
 .Example
 $Tokens = @{}
 Add-TokensFromAzureKeyVault -Vault 'MyVaultName' -Tokens $Tokens -SubscriptionId 'mySubscriptionId'
 #>
-function Add-TokensFromAzureKeyVault($Vault, $Tokens, $SubscriptionId, $ServicePrincipal)
+function Add-TokensFromAzureKeyVault([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Vault, [Parameter(Mandatory = $true)]$Tokens, $SubscriptionId)
 {
     Write-Verbose "Add-TokensFromAzureKeyVault"
     Write-Verbose "           Vault: $Vault"
     Write-Verbose "  SubscriptionId: $SubscriptionId"
-    Write-Verbose "ServicePrincipal: $ServicePrincipal"
 
     function Add-Secret($Name, $Value)
     {
         if (!$Tokens.ContainsKey($Name))
         {
-            Write-Host "Adding secret $Name : *******"
+            Write-Host "Adding secret $Name : ******* to Token Store"
             $Tokens.Add($Name, $Value)
         }
     }
 
-    if ($null -eq (Get-Module -ListAvailable 'Az'))
+    if (!(Test-AzureConnected))
     {
-        Install-Module -Name Az -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
-        Install-Module -Name Az.Accounts -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
+        Connect-ToAzure
     }
-    else
+    if ($SubscriptionId)
     {
-        Import-Module Az -Scope local -Force
-        Import-Module Az.Accounts -Scope local -Force
-    }
-
-    if (!!$env:SYSTEM_TEAMPROJECT)
-    {
-        Write-Verbose 'Connect to azure with Azure Cli configuration'
-        $token = $(az account get-access-token --query accessToken --output tsv)
-        $id = $(az account show --query user.name --output tsv)
-
-        if ($token -and $id)
-        {
-            Connect-AzAccount -AccessToken $token -AccountId $id -Scope Process
-        }
-    }
-    else
-    {
-        if ($ServicePrincipal)
-        {
-            Connect-AzAccount -ServicePrincipal $ServicePrincipal
-        }
-
-        if ($SubscriptionId)
-        {
-            $ctxList = Get-AzContext -ListAvailable
-            foreach ($ctx in $ctxList)
-            {
-                if ($ctx.Subscription.Id -eq $SubscriptionId)
-                {
-                    Write-Verbose "Select context: $($ctx.Name)"
-                    Select-AzContext -Name $ctx.Name
-                    break
-                }
-            }
-        }
-    }
-
-    $azProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
-    if (-not $azProfile.Accounts.Count)
-    {
-        Throw "Powershell Az error: Ensure you are logged in."
-    }
-    else
-    {
-        Write-Verbose "Az Account: $($azProfile.DefaultContext.Account.Id)"
-        Write-Verbose "Az Subscription: $($azProfile.DefaultContext.Subscription.Name) - $($azProfile.DefaultContext.Subscription.Id)"
+        Select-AzureSubscription -SubscriptionId $SubscriptionId
     }
 
     $warning = (Get-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings -ErrorAction Ignore) -eq 'true'

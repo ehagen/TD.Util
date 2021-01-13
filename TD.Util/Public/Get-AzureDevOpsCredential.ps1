@@ -11,7 +11,7 @@ Url of the Azure DevOps subscription like  https://(mycompany)@dev.azure.com/(my
 .Example
 $cred = Get-AzureDevOpsCredential 'https://mycompany@dev.azure.com/mycompany')
 #>
-function Get-AzureDevOpsCredential($Url)
+function Get-AzureDevOpsCredential([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Url)
 {
     $token = $env:SYSTEM_ACCESSTOKEN
     if ([string]::IsNullOrEmpty($token)) 
@@ -23,11 +23,11 @@ function Get-AzureDevOpsCredential($Url)
         {
             Throw "No Azure DevOps credentials found. It should be passed in via env:SYSTEM_ACCESSTOKEN."
         }
-        Write-Verbose "Use Azure DevOps Access Token from Windows Credential Store"
+        Write-Verbose "Using Azure DevOps Access Token from Windows Credential Store"
     }
     else
     {
-        Write-Verbose "Use Azure DevOps Access Token from Hosted Agent"
+        Write-Verbose "Using Azure DevOps Access Token from Hosted Agent"
         $secureToken = $token | ConvertTo-SecureString -AsPlainText -Force
         $credential = New-Object System.Management.Automation.PSCredential(".", $secureToken)
     }

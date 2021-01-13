@@ -21,7 +21,7 @@ Always import latest modules
 Register-AzureDevOpsPackageSource -Name myFeed -Url https://pkgs.dev.azure.com/myCompany/_packaging/myFeed/nuget/v2
 Import-AzureDevOpsModules -PackageSource 'myFeed' -Modules @('myModule') -Latest
 #>
-function Import-AzureDevOpsModules($PackageSource, $Modules, [System.Management.Automation.PSCredential]$Credential, [Switch]$Latest)
+function Import-AzureDevOpsModules([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$PackageSource, [Parameter(Mandatory = $true)]$Modules, [System.Management.Automation.PSCredential]$Credential, [Switch]$Latest)
 {
     foreach ($module in $Modules)
     {

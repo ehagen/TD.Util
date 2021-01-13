@@ -17,7 +17,7 @@ Credentials to access feed
 .Example
 Register-AzureDevOpsPackageSource -Name myFeed -Url https://pkgs.dev.azure.com/myCompany/_packaging/myFeed/nuget/v2
 #>
-function Register-AzureDevOpsPackageSource($Name, $Url, [System.Management.Automation.PSCredential]$Credential)
+function Register-AzureDevOpsPackageSource([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Name, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Url, [System.Management.Automation.PSCredential]$Credential)
 {
     if ($Credential)
     {
@@ -25,7 +25,8 @@ function Register-AzureDevOpsPackageSource($Name, $Url, [System.Management.Autom
         {
             Invoke-WebRequest -Uri $Url -Credential $Credential | Out-Null # check for access to artifacts with credential
         }
-        catch {
+        catch
+        {
             Throw "Register-AzureDevOpsPackageSource error for $Url : $($_.Exception.Message)"
         }
     }

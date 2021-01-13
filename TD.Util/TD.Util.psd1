@@ -1,6 +1,6 @@
 @{
     RootModule        = 'TD.Util.psm1'
-    ModuleVersion     = '0.1.4'
+    ModuleVersion     = '0.1.5'
     GUID              = '62f2ff10-4b3c-4464-b863-e7352e07468e'
     Author            = 'Edwin Hagen'
     CompanyName       = 'Tedon Technology BV'
@@ -27,6 +27,10 @@
       - Added force install Az modules in Add-TokensFromAzureKeyVault
 
 0.1.4 - Updated Add-TokensFromAzureKeyVault with more diagnostics and preventing issue connecting Azure when running in Azure DevOps
+
+0.1.5 - Refactored handling account/logged-in user to Azure in Add-TokensFromAzureKeyVault
+      - Added Initialize-Azure, Test-AzureConnected, Assert-AzureConnected, Connect-ToAzure and Select-AzureSubscription
+      - Added parameter validation to all functions 
             '            
         }
     }
