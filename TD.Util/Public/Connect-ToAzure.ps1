@@ -8,13 +8,12 @@ Connect to Azure with Powershell Az modules, use 'az cli' as fallback to connect
 .Example
 Connect-ToAzure
 #>
-function Connect-ToAzure()
+function Connect-ToAzure([Switch]$Force)
 {
     Write-Verbose "Connect-ToAzure"
-    Write-Verbose "  SubscriptionId: $SubscriptionId"
 
     # check already logged-in to Azure
-    if (!(Test-AzureConnected))
+    if (!(Test-AzureConnected) -or $Force.IsPresent)
     {
         # try to find logged-in user via az cli if installed
         Write-Verbose 'Connect to azure with Azure Cli configuration'

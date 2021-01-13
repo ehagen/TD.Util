@@ -6,9 +6,9 @@ Initializes (install or import) the Azure Az modules into current Powershell ses
 Initializes (install or import) the Azure Az modules into current Powershell session
 
 .Example
-Initialize-Azure
+Initialize-AzureModules
 #>
-function Initialize-Azure
+function Initialize-AzureModules
 {
     if ($Global:AzureInitialized) { return }
 

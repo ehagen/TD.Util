@@ -10,7 +10,7 @@ Test-AzureConnected
 #>
 function Test-AzureConnected
 {
-    Initialize-Azure
+    Initialize-AzureModules
 
     try
     {  

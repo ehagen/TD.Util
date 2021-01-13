@@ -1,6 +1,6 @@
 @{
     RootModule        = 'TD.Util.psm1'
-    ModuleVersion     = '0.1.5'
+    ModuleVersion     = '0.1.7'
     GUID              = '62f2ff10-4b3c-4464-b863-e7352e07468e'
     Author            = 'Edwin Hagen'
     CompanyName       = 'Tedon Technology BV'
@@ -31,6 +31,10 @@
 0.1.5 - Refactored handling account/logged-in user to Azure in Add-TokensFromAzureKeyVault
       - Added Initialize-Azure, Test-AzureConnected, Assert-AzureConnected, Connect-ToAzure and Select-AzureSubscription
       - Added parameter validation to all functions 
+
+0.1.7 - Renamed Select-AzureSubscription to Select-AzureDefaultSubscription
+      - Added force switch to Connect-ToAzure
+      - Renamed Initialize-Azure to Initialize-AzureModules
             '            
         }
     }
