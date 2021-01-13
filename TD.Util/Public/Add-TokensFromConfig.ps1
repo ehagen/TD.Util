@@ -18,7 +18,7 @@ Token environment filter, filter the tokens by environent like local, develop, t
 $Tokens = @{}
 Add-TokensFromConfig -ConfigPath "$PSScriptRoot/config" -Tokens $Tokens -Env 'local'
 #>
-function Add-TokensFromConfig($ConfigPath, $Tokens, $Env)
+function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$ConfigPath, [Parameter(Mandatory = $true)]$Tokens, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Env)
 {
     function Add-Var($Nodes, $NameProp = 'name', $ValueProp = 'value', $Prefix)
     {
@@ -46,7 +46,7 @@ function Add-TokensFromConfig($ConfigPath, $Tokens, $Env)
             if ($pre)
             {
                 $kn = "$pre$name"
-                Write-Host "Adding variable $kn : $value"
+                Write-Host "Adding variable $kn : $value to Token Store"
                 if (!$Tokens.ContainsKey($kn))
                 {
                     $Tokens.Add($kn, $value)
@@ -56,7 +56,7 @@ function Add-TokensFromConfig($ConfigPath, $Tokens, $Env)
             {
                 if (!$Tokens.ContainsKey($name))
                 {
-                    Write-Host "Adding variable $name : $value"
+                    Write-Host "Adding variable $name : $value to Token Store"
                     $Tokens.Add($name, $value)
                 }
             }

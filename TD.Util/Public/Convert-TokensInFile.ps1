@@ -33,7 +33,7 @@ Get-ChildItem .\$ConfigLocation\*.* | ForEach-Object {
 }
 
 #>
-function Convert-TokensInFile($FileName, $PrefixToken = '__', $SuffixToken = '__', $DestFileName, [Switch]$ShowTokensUsed, [Switch]$SecondPass, $Tokens)
+function Convert-TokensInFile([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$FileName, $PrefixToken = '__', $SuffixToken = '__', $DestFileName, [Switch]$ShowTokensUsed, [Switch]$SecondPass, $Tokens)
 {
     if (!$DestFileName) { $DestFileName = $FileName }
 
