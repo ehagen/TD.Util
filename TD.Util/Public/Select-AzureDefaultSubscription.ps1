@@ -1,14 +1,14 @@
 <#
 .SYNOPSIS
-Select the Azure subscription
+Select the Azure default subscription
 
 .DESCRIPTION
-Select the Azure subscription
+Select the Azure default subscription
 
 .Example
-Select-AzureSubscription -SubscriptionId 'myid'
+Select-AzureDefaultSubscription -SubscriptionId 'myid'
 #>
-function Select-AzureSubscription([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$SubscriptionId)
+function Select-AzureDefaultSubscription([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$SubscriptionId)
 {
     Assert-AzureConnected
 

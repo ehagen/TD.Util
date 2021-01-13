@@ -33,13 +33,11 @@ function Add-TokensFromAzureKeyVault([Parameter(Mandatory = $true)][ValidateNotN
         }
     }
 
-    if (!(Test-AzureConnected))
-    {
-        Connect-ToAzure
-    }
+    Connect-ToAzure
+
     if ($SubscriptionId)
     {
-        Select-AzureSubscription -SubscriptionId $SubscriptionId
+        Select-AzureDefaultSubscription -SubscriptionId $SubscriptionId
     }
 
     $warning = (Get-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings -ErrorAction Ignore) -eq 'true'

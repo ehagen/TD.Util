@@ -10,7 +10,7 @@ Assert-AzureConnected
 #>
 function Assert-AzureConnected
 {
-    Initialize-Azure
+    Initialize-AzureModules
 
     $azProfile = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile
     if (-not $azProfile.Accounts.Count)
