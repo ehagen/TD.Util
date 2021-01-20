@@ -15,7 +15,6 @@ function Initialize-AzureModules
     if ($null -eq (Get-Module -ListAvailable 'Az'))
     {
         Install-Module -Name Az -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
-        Install-Module -Name Az.Accounts -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
     }
     else
     {
@@ -23,9 +22,27 @@ function Initialize-AzureModules
         {
             Import-Module Az -Scope local -Force
         }
+    }    
+    if ($null -eq (Get-Module -ListAvailable 'Az.Accounts'))
+    {
+        Install-Module -Name Az.Accounts -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
+    }
+    else
+    {
         if (!(Get-Module -Name Az.Accounts))
         {
             Import-Module Az.Accounts -Scope local -Force
+        }    
+    }    
+    if ($null -eq (Get-Module -ListAvailable 'Az.KeyVault'))
+    {
+        Install-Module -Name Az.KeyVault -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
+    }
+    else
+    {
+        if (!(Get-Module -Name Az.KeyVault))
+        {
+            Import-Module Az.KeyVault -Scope local -Force
         }    
     }    
     $Global:AzureInitialized = $true
