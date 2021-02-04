@@ -1,2 +1,5 @@
 Output
 docs
+Tests/tmp
+coverage.xml
+test-pester.xml

@@ -23,7 +23,7 @@ function Register-AzureDevOpsPackageSource([Parameter(Mandatory = $true)][Valida
     {
         try 
         {
-            Invoke-WebRequest -Uri $Url -Credential $Credential | Out-Null # check for access to artifacts with credential
+            Invoke-RestMethod -Uri $Url -Credential $Credential | Out-Null # check for access to artifacts with credential
         }
         catch
         {

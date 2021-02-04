@@ -93,7 +93,7 @@ function Convert-TokensInFile([Parameter(Mandatory = $true)][ValidateNotNullOrEm
             }
             else
             {
-                LogInfo "Tokens replaced: $($script:cnt)"
+                Write-Host "Tokens replaced: $($script:cnt)"
             }
         }
 

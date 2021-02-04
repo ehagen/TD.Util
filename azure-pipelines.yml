@@ -1,0 +1,24 @@
+jobs:
+  - job: BuildModule
+
+    pool:
+      vmImage: vs2017-win2016
+
+    steps:
+      - task: NuGetToolInstaller@0
+        inputs:
+          checkLatest: true
+  
+      - task: NuGetAuthenticate@0
+  
+      - pwsh: ./run-psake.ps1 -Verbose
+        displayName: 'Build, Test and Publish'
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: 'NUnit'
+          testResultsFiles: '**/out/testResults.xml'
+          testRunTitle: 'Module'
+        displayName: 'Publish Test Results'
