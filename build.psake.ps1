@@ -77,7 +77,7 @@ Task TestWithCoverage -depends Build {
     }
 }
 
-Task BuildMKDocs {
+Task BuildMKDocs -PreCondition { $Publish } {
     $moduleName = 'TD.Util'
     Remove-Module $moduleName -Force -ErrorAction Ignore | Out-Null
 
