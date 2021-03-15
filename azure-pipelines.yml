@@ -1,3 +1,6 @@
+variables:
+- group: td.deploy
+
 jobs:
   - job: BuildModule
 
@@ -25,6 +28,7 @@ jobs:
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.Reason'], 'Schedule'), eq(variables['BuildType'], 'release') )
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          CertPassword: $(CertPassword)
           
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifacts'

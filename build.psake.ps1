@@ -30,7 +30,7 @@ Task Sign -Depends Build {
         $certLoc = "$($env:AGENT_WORKFOLDER)/_temp/code-signing-cert.pfx"
         try
         {
-            $cert = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($certLoc, $aCertPwd);
+            $cert = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($certLoc, $env:CertPassword);
             Write-Host "Loaded signing cert";
         }
         catch
