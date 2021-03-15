@@ -1,2 +1,7 @@
+gen-docs/
 Output
-docs
+docs/Functions
+Tests/tmp
+coverage.xml
+test-pester.xml
+site/

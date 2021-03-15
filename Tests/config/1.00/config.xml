@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<config>
+  <environment-groups>
+    <environment-group name="sample" enabled="false" />
+  </environment-groups>
+  <environments>
+    <include file="sample.develop.xml" name="develop" name-short="dev" group="sample" />
+    <include file="sample.test.xml" name="test" name-short="tst" group="sample" />
+  </environments>
+  <roles file="">
+    <role name="virtual" virtual="true" />
+    <role name="batch-server" group="batch-server" parallel="true"/>
+    <role name="app-server" group="app-server" parallel="true" prepare-env="true" wrap-up-env="true"/>
+    <role name="db-server" group="db-server" parallel="true" />
+    <role name="file-server" group="file-server" />
+    <role name="domain-server" group="domain-server" parallel="false" />
+    <role name="ad-server" group="domain-server" parallel="false" use-tags="false"/>
+    <role name="web-server" group="web-server" scope="" parallel="true" prepare-env="true" wrap-up-env="true" />
+    <role name="mq-server" group="web-server" scope="" parallel="true" />
+  </roles>
+  <variables>
+    <include file="global.xml" />
+    <include file="sample.xml" module="sample"/>
+    <include file="empty.xml" module="empty"/>
+    <variable name="samplevar" value="sampleval1" group="sample" role="web-server" />
+    <variable name="global-var4" value="global-var4_val"/>
+    <variable name="global-var5" value="global-var5_val" group="sample"/>
+    <variable name="global-var6" value="global-var6_val_local" group="sample" environment="local" />
+    <variable name="global-var6" value="global-var6_val_develop" group="sample" environment="develop"/>
+  </variables>
+  <services>
+    <include file="global.xml" />
+  </services>
+  <package-sources>
+    <package-source location="C:\temp\" name="artifacts" type="file" default="true" />
+  </package-sources>
+  <modules>
+    <include file="modules.xml" />
+  </modules>
+  <projects>
+    <include file="projects.xml" scope="" />
+  </projects>
+  <teams>
+    <team name="dev" scope="sample" />
+    <team name="test" scope="sample" />
+    <team name="users" scope="sample" />
+  </teams>
+  <users>
+    <user name="Sample User" account="sampleuser" email="info@sampledomain__.com" domain="" project="" teams="dev,test,users" />
+  </users>
+  <passwords>
+    <include file="global.xml" scope="" />
+    <password id="SvUsSample" pwd="SvUsSample" group="sample" role="" module="sample"/>
+    <password id="ApUsSample" pwd="ApUsSample" group="sample" role="" module="empty"/>
+    <password id="admin-dev" pwd="(empty)__" group="sample" role="" environment="develop"/>
+    <password id="admin-dev-web01" pwd="(empty)__" group="sample" role="" environment="develop"/>
+    <password id="admin-dev-web02" pwd="(empty)__" group="sample" role="" environment="develop"/>
+  </passwords>
+</config>

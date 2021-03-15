@@ -5,6 +5,9 @@ Select the Azure default subscription
 .DESCRIPTION
 Select the Azure default subscription
 
+.PARAMETER SubscriptionId
+The Azure subscription Id
+
 .Example
 Select-AzureDefaultSubscription -SubscriptionId 'myid'
 #>

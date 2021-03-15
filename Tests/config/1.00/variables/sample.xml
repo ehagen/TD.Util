@@ -1,0 +1,4 @@
+<variables>
+    <variable name="sample-var1" value="sample-var1_val" group="sample"/>
+    <variable name="sample-var2" value="sample-var2_val" group="sample"/>
+</variables>

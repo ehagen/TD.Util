@@ -1,0 +1,41 @@
+variables:
+- group: td.deploy
+
+jobs:
+  - job: BuildModule
+
+    pool:
+      vmImage: vs2017-win2016
+
+    steps:
+      - task: NuGetToolInstaller@0
+        inputs:
+          checkLatest: true
+  
+      - task: DownloadSecureFile@1
+        displayName: 'Download secure file'
+        inputs:
+          secureFile: '9e6096b4-8842-474a-ab4b-7126c0429272'
+
+      - pwsh: ./build.ps1
+        displayName: 'Build and Test'
+        condition: and(succeeded(), ne(variables['BuildType'], 'release') )
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          CertPassword: $(CertPassword)
+
+      - pwsh: ./build.ps1 -Publish $true
+        displayName: 'Build, Test and Publish'
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.Reason'], 'Schedule'), eq(variables['BuildType'], 'release') )
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          CertPassword: $(CertPassword)
+          
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifacts'
+        inputs:
+          PathtoPublish: output
+          ArtifactName: drop
+          publishLocation: Container
+          Parallel: true
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.Reason'], 'Schedule'), eq(variables['BuildType'], 'release') )

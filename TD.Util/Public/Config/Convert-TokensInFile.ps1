@@ -14,6 +14,9 @@ Token prefix
 .PARAMETER SuffixToken
 Token suffix
 
+.PARAMETER DestFileName
+File name of converted file
+
 .PARAMETER ShowTokensUsed
 Switch to echo tokens replaced
 
@@ -93,7 +96,7 @@ function Convert-TokensInFile([Parameter(Mandatory = $true)][ValidateNotNullOrEm
             }
             else
             {
-                LogInfo "Tokens replaced: $($script:cnt)"
+                Write-Host "Tokens replaced: $($script:cnt)"
             }
         }
 

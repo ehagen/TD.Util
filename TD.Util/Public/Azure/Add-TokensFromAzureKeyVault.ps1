@@ -41,19 +41,26 @@ function Add-TokensFromAzureKeyVault([Parameter(Mandatory = $true)][ValidateNotN
     }
 
     $warning = (Get-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings -ErrorAction Ignore) -eq 'true'
-    Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"    
-    try 
+    Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
+    try
     {
         $secrets = Get-AzKeyVaultSecret -VaultName $Vault
         foreach ($secret in $secrets)
         {
-            $s = Get-AzKeyVaultSecret -VaultName $Vault -Name $secret.Name
+            try
+            {
+                $s = Get-AzKeyVaultSecret -VaultName $Vault -Name $secret.Name
+            }
+            Catch [Microsoft.Azure.KeyVault.Models.KeyVaultErrorException]
+            {
+                # ignore disabled/expired secrets
+            }
             #$pass = $s.SecretValue | ConvertFrom-SecureString -AsPlainText
             $cred = New-Object System.Management.Automation.PSCredential($secret.Name, $s.SecretValue)
             Add-Secret $secret.Name $cred
-        }       
+        }   
     }
-    finally 
+    finally
     {
         Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings $warning
     }

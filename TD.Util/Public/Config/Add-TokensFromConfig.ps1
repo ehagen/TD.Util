@@ -26,6 +26,11 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         {
             $name = $node."$NameProp"
             $value = $node."$ValueProp"
+            if ($value -and $value.StartsWith('$'))
+            {
+                $value = Invoke-Expression "Write-Output `"$($value)`""
+            }
+
             $pre = $Prefix
 
             if ($node.LocalName -eq 'node')
@@ -76,6 +81,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         if ($nodes.Count -gt 0)
         {
             Add-Var $nodes -Prefix 'service-'
+            Add-Var $nodes -Prefix 'service-cert-hash-' -ValueProp 'cert-hash'
         }
         $nodes = $doc.SelectNodes("//system-user[@environment='$Env' or not(@environment)]")
         if ($nodes.Count -gt 0)
