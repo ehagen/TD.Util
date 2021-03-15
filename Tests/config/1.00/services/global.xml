@@ -1,0 +1,33 @@
+<services>
+    <service-description name="piranha" title="Piranha CMS" role="web-server" project="piranha" module="piranha" type="website" descripton="" group="sample" documentation-ref="">
+        <service name="piranha" environment="develop" value="https://piranha.azurewebsites.net" healthcheck="" healthcheck-type="rest" cert-hash="B123456789987654321A" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="test" value="https://piranha.azurewebsites.net" healthcheck="" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="acceptance" value="https://piranha.azurewebsites.net" healthcheck="" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="production" value="https://piranha.azurewebsites.net" healthcheck="" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="alm" value="https://piranha.azurewebsites.net" healthcheck="" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
+    </service-description>
+    <service-description name="piranha.db" role="db-server" title="Piranha database" project="piranha" module="piranha" type="database" descripton="" group="sample" documentation-ref="">
+        <service name="piranha.db" environment="develop" type="database" value="Data Source=CONN-SQL-DEV;Initial Catalog=piranha_db;Trusted_Connection=True" healthcheck="" group="sample" />
+        <service name="piranha.db" environment="test" type="database" value="Data Source=CONN-SQL-TST;Initial Catalog=piranha_db;Trusted_Connection=True" healthcheck="" group="sample" />
+        <service name="piranha.db" environment="acceptance" type="database" value="Data Source=CONN-SQL-ACC;Initial Catalog=piranha_db;Trusted_Connection=True" healthcheck="" group="sample" />
+        <service name="piranha.db" environment="production" type="database" value="Data Source=CONN-SQL-PRD;Initial Catalog=piranha_db;Trusted_Connection=True" healthcheck="" group="sample" />
+        <service name="piranha.db" environment="alm" type="database" value="Data Source=CONN-SQL-ALM;Initial Catalog=piranha_db;Trusted_Connection=True" healthcheck="" group="sample" />
+    </service-description>
+    <service-description name="piranha.legacy.db" role="db-server" title="Piranha database" project="piranha" module="piranha" type="database" descripton="" group="sample" documentation-ref="">
+        <service name="piranha.legacy.db" environment="production" type="database" value="Data Source=CONN-SQL-PRD;Initial Catalog=piranha_legacy_db;Trusted_Connection=True" healthcheck="" group="sample" />
+    </service-description>
+    <service-description name="mq.intern" role="mq-server" title="Mq Vhost intern" project="piranha" module="piranha" type="mqhost" descripton="" group="sample" documentation-ref="">
+        <service name="mq.intern" environment="develop" type="mqhost" value="intern" healthcheck="" group="sample" />
+        <service name="mq.intern" environment="test" type="mqhost" value="intern" healthcheck="" group="sample" />
+        <service name="mq.intern" environment="acceptance" type="mqhost" value="intern" healthcheck="" group="sample" />
+        <service name="mq.intern" environment="production" type="mqhost" value="intern" healthcheck="" group="sample" />
+        <service name="mq.intern" environment="alm" type="mqhost" value="intern" healthcheck="" group="sample" />
+    </service-description>
+    <service-description name="mq.public" role="mq-server" title="Mq Vhost public" project="piranha" module="piranha" type="mqhost" descripton="" group="sample" documentation-ref="">
+        <service name="mq.public" environment="develop" type="mqhost" value="public" healthcheck="" group="sample" />
+        <service name="mq.public" environment="test" type="mqhost" value="public" healthcheck="" group="sample" />
+        <service name="mq.public" environment="acceptance" type="mqhost" value="public" healthcheck="" group="sample" />
+        <service name="mq.public" environment="production" type="mqhost" value="public" healthcheck="" group="sample" />
+        <service name="mq.public" environment="alm" type="mqhost" value="public" healthcheck="" group="sample" />
+    </service-description>
+</services>

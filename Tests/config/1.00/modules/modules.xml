@@ -1,0 +1,20 @@
+<modules>
+  <module name="empty" folder="empty" title="Empty Module" description="Empty" owner="edwinn@sample.com" project="empty" role="ad-server,web-server,file-server,mq-server" depends="sample"/>
+  <module name="sample" title="Sample Application" description="Sample applicatie" owner="edwin@sample.com" project="sample" depends=""/>
+
+  <!-- Every Module: One Repo, One Build, One Deploy, 1..n Applications by role -->
+  <module name="piranha" name-short="ph" title="piranha" description="Piranha Cms" owner="dev" project="piranha" role="web-server,db-server" depends="">
+    <repo name="TD.Piranha" href="" solution="piranha.sln" type="git"/>
+    <build-definition name="TD.Piranha" href="" type="devops-yaml" script="build/build.ps1"/>
+    <release-definition name="TD.Piranha" href="" type="devops-ui" script="deploy/deploy.ps1" />
+    <application name="piranha" type="website" role="web-server" service="piranha" cloud-rolename="piranha" availability="99.5" artifacts="" >
+      <system-user name="Network Service" domain="."/>
+      <system-role name="" domain="." />
+      <dns-entry name="" zone="" type="cname" service="piranha" service-type="website-lb" />
+      <service-dependency name="piranha.db"/>
+      <service-dependency name="mq.intern"/>
+      <service-dependency name="mq.public"/>
+    </application>
+  </module>
+
+</modules>

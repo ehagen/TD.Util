@@ -5,6 +5,9 @@ Connect to Azure with Powershell Az modules
 .DESCRIPTION
 Connect to Azure with Powershell Az modules, use 'az cli' as fallback to connect
 
+.PARAMETER Force
+Always re-authenticated when used
+
 .Example
 Connect-ToAzure
 #>

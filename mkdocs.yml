@@ -1,0 +1,26 @@
+site_name: TD.Util
+site_author: Edwin Hagen
+repo_name: TD.Util
+repo_url: https://github.com/ehagen/TD.Util
+copyright: "(c) Edwin Hagen / Tedon Technology BV. All rights reserved."
+
+theme:
+  name: material
+  logo: images/favicon.png
+  favicon: images/favicon.ico
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+  palette:
+    scheme: preference
+    primary: cyan
+    accent: cyan
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - admonition
+  - meta
+
+extra:
+  social:

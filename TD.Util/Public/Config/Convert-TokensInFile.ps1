@@ -14,6 +14,9 @@ Token prefix
 .PARAMETER SuffixToken
 Token suffix
 
+.PARAMETER DestFileName
+File name of converted file
+
 .PARAMETER ShowTokensUsed
 Switch to echo tokens replaced
 
