@@ -17,12 +17,29 @@ Properties {
 
 Task Build -FromModule PowerShellBuild
 Task default -depends `
+    EnvironmentInfo, `
+    EnvironmentVariables, `
     Build, `
     Sign, `
     TestWithCoverage, `
     BuildMKDocs, `
     PublishModule
 
+Task EnvironmentInfo {
+    Write-Host ""
+    Write-Host "Environment Info:"
+    Write-Host "     Computer: $([system.environment]::MachineName)"
+    Write-Host "           Os: $([System.Environment]::OSVersion.VersionString)"
+    Write-Host "       WhoAmI: $([Environment]::UserName)"
+    Write-Host "   Powershell: $($PSVersionTable.PsVersion)"
+    Write-Host "Currentfolder: $(Get-Location)"
+    Write-Host ""
+}
+
+Task EnvironmentVariables {
+    Get-ChildItem env:
+}
+    
 Task Sign -Depends Build {
     $cert = $null
     if ( (!!$env:SYSTEM_TEAMPROJECT) -and ( $IsWindows) )

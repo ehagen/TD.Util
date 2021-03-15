@@ -22,6 +22,7 @@ jobs:
         condition: and(succeeded(), ne(variables['BuildType'], 'release') )
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+          CertPassword: $(CertPassword)
 
       - pwsh: ./build.ps1 -Publish $true
         displayName: 'Build, Test and Publish'
