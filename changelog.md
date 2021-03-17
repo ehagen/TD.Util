@@ -1,3 +1,3 @@
 # ChangeLog
 
-See [Release Notes](./docs/release-notes) for changes
+See [Release Notes](./docs/release-notes.md) for changes

@@ -1,6 +1,6 @@
 @{
       RootModule        = 'TD.Util.psm1'
-      ModuleVersion     = '0.1.11'
+      ModuleVersion     = '0.1.12'
       GUID              = '62f2ff10-4b3c-4464-b863-e7352e07468e'
       Author            = 'Edwin Hagen'
       CompanyName       = 'Tedon Technology BV'

@@ -59,13 +59,21 @@ function Convert-TokensInFile([Parameter(Mandatory = $true)][ValidateNotNullOrEm
             {
                 if ($Tokens.ContainsKey($value))
                 {
-                    $newTokenValue = $Tokens[$value]
+					$v = $Tokens[$value]
+					if ($v -is [PSCredential])
+					{
+						$newTokenValue = $v.GetNetworkCredential().Password
+					}
+					else
+					{
+                    	$newTokenValue = $v.ToString()
 
-                    # detect expression in variable
-                    if ($newTokenValue.ToString().StartsWith('$'))
-                    {
-                        $newTokenValue = Invoke-Expression "Write-Output `"$($newTokenValue)`""
-                    }                    
+						# detect expression in variable
+						if ($newTokenValue.StartsWith('$'))
+						{
+							$newTokenValue = Invoke-Expression "Write-Output `"$($newTokenValue)`""
+						}                    
+					}
                 }
             }
             if ($null -eq $newTokenValue)
@@ -92,7 +100,7 @@ function Convert-TokensInFile([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         {
             if ($SecondPass.IsPresent -and ($script:cnt -eq 0) )
             {
-                #ignore
+                Write-Host "Tokens replaced: $($script:cnt)"
             }
             else
             {

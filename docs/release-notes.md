@@ -1,5 +1,16 @@
 # Release Notes
 
+## [0.1.12]
+
+```plain
+### Added
+- Added secrets support to Convert-TokensInFile
+
+### Changed
+
+### Fixed
+```
+
 ## [0.1.11]
 
 ```plain
