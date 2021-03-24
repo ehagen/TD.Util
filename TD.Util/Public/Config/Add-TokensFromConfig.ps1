@@ -96,6 +96,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         }
     }
 
+    $modules = @()
     Get-ChildItem "$ConfigPath\*.xml" -Recurse | ForEach-Object {
         $doc = [xml] (Get-Content $_.Fullname)
         $nodes = $doc.SelectNodes("//variable[@environment='$Env' or not(@environment)]")
@@ -120,9 +121,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         if ($nodes.Count -gt 0)
         {
             Add-Modules -Nodes $nodes -Module $Module
-            $modules = @()
             $nodes | ForEach-Object { $modules += $_.name }
-            $Tokens.Add('modules', $modules)
         }
         $envNode = $doc.SelectSingleNode("//environment[@name='$Env']")
         if ($envNode)
@@ -143,4 +142,5 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
             $Tokens.Add('env-vault', $envNode.'vault')
         }
     }
+    $Tokens.Add('modules', $modules)
 }
