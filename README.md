@@ -36,5 +36,3 @@ Each module contains private functions, public functions and PSake tasks. The fo
         psd file
         psm file
         psakefile (optional)
-
-For examples look at the documentation of PowerShellBuild at https://github.com/psake/PowerShellBuild. You can also use this repo as a reference.
