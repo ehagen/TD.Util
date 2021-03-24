@@ -18,7 +18,7 @@ Token environment filter, filter the tokens by environent like local, develop, t
 $Tokens = @{}
 Add-TokensFromConfig -ConfigPath "$PSScriptRoot/config" -Tokens $Tokens -Env 'local'
 #>
-function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$ConfigPath, [Parameter(Mandatory = $true)]$Tokens, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Env)
+function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$ConfigPath, [Parameter(Mandatory = $true)]$Tokens, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Env, $Module)
 {
     function Add-Var($Nodes, $NameProp = 'name', $ValueProp = 'value', $Prefix)
     {
@@ -68,6 +68,34 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         }
     }
 
+    function Add-Modules($Nodes, $Module)
+    {
+        foreach ($node in $Nodes)
+        {
+            if ($Module -and ($node.name -ne $Module))
+            {
+                continue
+            }
+
+            Write-Host "Adding module $($node.name) to Token Store"
+            $Tokens.Add("module-$($node.name)", $node.name)
+            $Tokens.Add("module-$($node.name)-role", $node.role)
+            $Tokens.Add("module-$($node.name)-depends", $node.depends)
+            $Tokens.Add("module-$($node.name)-folder", $node.folder)
+            $nodeApps = $node.SelectNodes(".//application")
+            foreach ($nodeApp in $NodeApps)
+            {
+                Write-Host "Adding module $($node.name) application $($nodeApp.name) to Token Store"
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)", $nodeApp.name)
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-type", $nodeApp.type)
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-role", $nodeApp.role)
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-service", $nodeApp.service)
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-exe", $nodeApp.exe)
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-dotnet-version", $nodeApp.'dotnet-version')
+            }
+        }
+    }
+
     Get-ChildItem "$ConfigPath\*.xml" -Recurse | ForEach-Object {
         $doc = [xml] (Get-Content $_.Fullname)
         $nodes = $doc.SelectNodes("//variable[@environment='$Env' or not(@environment)]")
@@ -87,6 +115,14 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         if ($nodes.Count -gt 0)
         {
             Add-Var $nodes -NameProp 'system-user' -ValueProp 'name' -Prefix 'system-user-'
+        }
+        $nodes = $doc.SelectNodes("//module")
+        if ($nodes.Count -gt 0)
+        {
+            Add-Modules -Nodes $nodes -Module $Module
+            $modules = @()
+            $nodes | ForEach-Object { $modules += $_.name }
+            $Tokens.Add('modules', $modules)
         }
         $envNode = $doc.SelectSingleNode("//environment[@name='$Env']")
         if ($envNode)

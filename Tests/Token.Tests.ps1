@@ -31,7 +31,46 @@ Describe 'token Tests' {
             $tokens['system-user-piranha'] | Should -Not -BeNullOrEmpty
 
             $tokens['node-web-server'] | Should -Be "$([Environment]::MachineName)"
-            $tokens['node-file-server'] | Should -Be '.'            
+            $tokens['node-file-server'] | Should -Be '.'
+
+            $tokens['modules'].Count | Should -Not -Be 0
+
+            $tokens['module-empty'] | Should -Not -BeNullOrEmpty
+            $tokens['module-empty-role'] | Should -Not -BeNullOrEmpty
+            $tokens['module-empty-depends'] | Should -Not -BeNull
+            $tokens['module-empty-folder'] | Should -Not -BeNullOrEmpty
+
+            $tokens['module-sample'] | Should -Not -BeNullOrEmpty
+            $tokens['module-sample-role'] | Should -BeNullOrEmpty
+            $tokens['module-sample-depends'] | Should -BeNullOrEmpty
+            $tokens['module-sample-folder'] | Should -BeNullOrEmpty
+
+            $tokens['module-piranha'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-role'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-depends'] | Should -BeNullOrEmpty
+            $tokens['module-piranha-folder'] | Should -Not -BeNullOrEmpty
+
+            $tokens['module-piranha-application-piranha'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha-type'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha-role'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha-exe'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha-dotnet-version'] | Should -Not -BeNullOrEmpty            
+
+            $tokens['module-piranha-application-piranha2'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha2-type'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha2-role'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha2-exe'] | Should -Not -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha2-dotnet-version'] | Should -Not -BeNullOrEmpty
+
+            $tokens = @{}
+            Add-TokensFromConfig -ConfigPath $configRoot -Tokens $tokens -Env $environment -Module piranha
+
+            $tokens.Keys.Count | Should -Not -Be 0
+
+            $tokens['module-empty'] | Should -BeNullOrEmpty
+            $tokens['module-sample'] | Should -BeNullOrEmpty
+            $tokens['module-piranha-application-piranha'] | Should -Not -BeNullOrEmpty
+
         }
     }
 
