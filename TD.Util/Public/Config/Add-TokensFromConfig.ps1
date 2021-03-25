@@ -111,6 +111,10 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         {
             Add-Var $nodes -Prefix 'service-'
             Add-Var $nodes -Prefix 'service-cert-hash-' -ValueProp 'cert-hash'
+            Add-Var $nodes -Prefix 'service-type-' -ValueProp 'type'
+            Add-Var $nodes -Prefix 'service-healthcheck-' -ValueProp 'healthcheck'
+            Add-Var $nodes -Prefix 'service-healthcheck-type-' -ValueProp 'healthcheck-type'
+            Add-Var $nodes -Prefix 'service-healthcheck-interval-' -ValueProp 'healthcheck-interval'
         }
         $nodes = $doc.SelectNodes("//system-user[@environment='$Env' or not(@environment)]")
         if ($nodes.Count -gt 0)
