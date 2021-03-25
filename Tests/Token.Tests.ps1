@@ -25,6 +25,10 @@ Describe 'token Tests' {
             $tokens['node-app-server'] | Should -Not -BeNullOrEmpty
             $tokens['service-piranha'] | Should -Not -BeNullOrEmpty
             $tokens['service-cert-hash-piranha'] | Should -Not -BeNullOrEmpty
+            $tokens['service-healthcheck-piranha'] | Should -Not -BeNullOrEmpty
+            $tokens['service-healthcheck-type-piranha'] | Should -Not -BeNullOrEmpty
+            $tokens['service-healthcheck-interval-piranha'] | Should -Not -BeNullOrEmpty
+            $tokens['service-type-piranha'] | Should -Not -BeNullOrEmpty
             $tokens['sample-var1'] | Should -Not -BeNullOrEmpty
             $tokens['global-var4'] | Should -Not -BeNullOrEmpty
             $tokens['node-file-server'] | Should -Not -BeNullOrEmpty

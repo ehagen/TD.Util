@@ -30,7 +30,16 @@ jobs:
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
           CertPassword: $(CertPassword)
-          
+      
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: "NUnit"
+          testResultsFiles: "**/TestResults.Pester.xml"
+          testRunTitle: "Unit Tests"
+          failTaskOnFailedTests: true
+        displayName: 'Publish Test Results **/Test-*.xml'
+        condition: succeededOrFailed()
+                
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifacts'
         inputs:
