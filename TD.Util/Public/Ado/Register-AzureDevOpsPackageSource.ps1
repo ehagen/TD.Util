@@ -19,8 +19,11 @@ Register-AzureDevOpsPackageSource -Name myFeed -Url https://pkgs.dev.azure.com/m
 #>
 function Register-AzureDevOpsPackageSource([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Name, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Url, [System.Management.Automation.PSCredential]$Credential)
 {
+    Write-Verbose "Register-AzureDevOpsPackageSource $Name"
+
     if ($Credential)
     {
+        Write-Verbose "Performing Credential check..."
         try 
         {
             Invoke-RestMethod -Uri $Url -Credential $Credential | Out-Null # check for access to artifacts with credential

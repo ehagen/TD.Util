@@ -9,6 +9,12 @@ Start browsing the documentation [here](./docs/index.md)
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/td.util.svg?label=PSGallery%20Downloads&logo=PowerShell&style=flat-square)
 [![Build Status](https://dev.azure.com/tedon/TD.Deploy/_apis/build/status/ehagen.TD.Util?branchName=master)](https://dev.azure.com/tedon/TD.Deploy/_build/latest?definitionId=52&branchName=master)
 
+<p align="center">
+  <a href="https://www.powershellgallery.com/packages/TD.Util"><img src="https://img.shields.io/powershellgallery/p/TD.Util.svg"></a>
+  <a href="https://github.com/ehagen/TD.Util"><img src="https://img.shields.io/github/languages/top/ehagen/TD.Util.svg"></a>
+  <a href="https://github.com/ehagen/TD>Util"><img src="https://img.shields.io/github/languages/code-size/ehagen/TD.Util.svg"></a>
+</p>
+
 ## Dependencies
 
 - PSake Module
@@ -23,7 +29,7 @@ Start browsing the documentation [here](./docs/index.md)
 
 - run the build.ps1 file from ps console
 
-## Structure module
+## Structure TD.Util module
 
 Each module contains private functions, public functions and PSake tasks. The folder layout used within git repo is:
 

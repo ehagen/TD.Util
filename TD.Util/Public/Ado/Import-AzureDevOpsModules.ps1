@@ -23,6 +23,8 @@ Import-AzureDevOpsModules -PackageSource 'myFeed' -Modules @('myModule') -Latest
 #>
 function Import-AzureDevOpsModules([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$PackageSource, [Parameter(Mandatory = $true)]$Modules, [System.Management.Automation.PSCredential]$Credential, [Switch]$Latest)
 {
+    Write-Verbose "Import-AzureDevOpsModules '$Modules' from $PackageSource"
+
     foreach ($module in $Modules)
     {
         if (-not (Get-Module -ListAvailable -Name $module) -or $Latest.IsPresent)
