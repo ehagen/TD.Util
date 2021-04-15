@@ -31,6 +31,8 @@ Publish-PackageToAzureDevOps -ModuleName 'MyModule' -ModulePath './Output' -Feed
 #>
 function Publish-PackageToAzureDevOps([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$ModuleName, $ModulePath = './Output', [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Feedname, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$FeedUrl, [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$AccessToken)
 {
+    Write-Verbose "Publish-PackageToAzureDevOps $ModuleName"
+
     $packageSource = $Feedname
     $packageFeedUrl = $FeedUrl
 
@@ -58,36 +60,43 @@ function Publish-PackageToAzureDevOps([Parameter(Mandatory = $true)][ValidateNot
     try 
     {
         # register temp feed for export package
+        # maybe need to use temp name for feed !!
         if (Get-PSRepository -Name LocalFeed -ErrorAction Ignore)
         {
-            Unregister-PSRepository  -Name LocalFeed
+            Unregister-PSRepository -Name LocalFeed
         }
         Register-PSRepository -Name LocalFeed -SourceLocation $tmpFeedPath -PublishLocation $tmpFeedPath -InstallationPolicy Trusted
-
-        # publish to temp feed
-        $packageName = "$moduleName.$version.nupkg"
-        $package = (Join-Path $tmpFeedPath $packageName)
-        Write-Verbose "Publish Module $package"
-        Publish-Module -Path $deployPath -Repository LocalFeed -Force -ErrorAction Ignore
-        if (!(Test-Path $package))
+        try
         {
-            Throw "Nuget package $package not created"
-        }
-
-        # publish package from tmp/local feed to PS feed
-        Write-Verbose "Push package $packageName in $tmpFeedPath"
-        Push-Location $tmpFeedPath
-        try 
-        {
-            nuget push $packageName -source $packageSource -Apikey Az -NonInteractive
-            if ($LastExitCode -ne 0)
+            # publish to temp feed
+            $packageName = "$moduleName.$version.nupkg"
+            $package = (Join-Path $tmpFeedPath $packageName)
+            Write-Verbose "Publish Module $package"
+            Publish-Module -Path $deployPath -Repository LocalFeed -Force -ErrorAction Ignore
+            if (!(Test-Path $package))
             {
-                Throw "Error pushing nuget package $packageName to feed $packageSource ($packageFeedUrl)"
+                Throw "Nuget package $package not created"
+            }
+
+            # publish package from tmp/local feed to PS feed
+            Write-Verbose "Push package $packageName in $tmpFeedPath"
+            Push-Location $tmpFeedPath
+            try 
+            {
+                nuget push $packageName -source $packageSource -Apikey Az -NonInteractive
+                if ($LastExitCode -ne 0)
+                {
+                    Throw "Error pushing nuget package $packageName to feed $packageSource ($packageFeedUrl)"
+                }
+            }
+            finally
+            {
+                Pop-Location    
             }
         }
         finally
         {
-            Pop-Location    
+            Unregister-PSRepository -Name LocalFeed -ErrorAction Ignore
         }
     }
     finally 

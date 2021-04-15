@@ -13,18 +13,27 @@ $token = Get-AzureDevOpsAccessToken 'https://mycompany@dev.azure.com/mycompany')
 #>
 function Get-AzureDevOpsAccessToken([Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()]$Url)
 {
+    Write-Verbose "Get-AzureDevOpsAccessToken $Url"
+
     $token = $env:SYSTEM_ACCESSTOKEN
     if ([string]::IsNullOrEmpty($token))
     {
-        if (-not(Get-Module CredentialManager -ListAvailable)) { Install-Module CredentialManager -Scope CurrentUser -Force }
-        Import-Module CredentialManager
-        $credential = Get-StoredCredential -Target "git:$Url"
-        if ($null -eq $credential)
+        if ($env:windir)
         {
-            Throw "No Azure DevOps credentials found in credential store"
+            if (-not(Get-Module CredentialManager -ListAvailable)) { Install-Module CredentialManager -Scope CurrentUser -Force }
+            Import-Module CredentialManager
+            $credential = Get-StoredCredential -Target "git:$Url"
+            if ($null -eq $credential)
+            {
+                Throw "No Azure DevOps credentials found in credential store"
+            }
+            Write-Verbose "Using Azure DevOps Access Token from Windows Credential Store"
+            $token = $credential.GetNetworkCredential().Password
         }
-        Write-Verbose "Using Azure DevOps Access Token from Windows Credential Store"
-        $token = $credential.GetNetworkCredential().Password
+        else
+        {
+            Write-Warning "Unable to resolve ADO Credential on platforms other than Windows"
+        }
     }
     return $token
 }
