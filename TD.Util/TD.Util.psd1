@@ -1,6 +1,6 @@
 @{
       RootModule           = 'TD.Util.psm1'
-      ModuleVersion        = '0.1.17'
+      ModuleVersion        = '0.1.18'
       GUID                 = '62f2ff10-4b3c-4464-b863-e7352e07468e'
       Author               = 'Edwin Hagen'
       CompanyName          = 'Tedon Technology BV'
@@ -15,7 +15,7 @@
       AliasesToExport      = @()
       PrivateData          = @{
             PSData = @{
-                  Tags         = @('Windows', 'MacOS', 'Linux', 'Azure DevOps', 'Azure', 'Slack', 'Config')
+                  Tags         = @('Windows', 'MacOS', 'Linux', 'AzureDevOps', 'Azure', 'Slack', 'Config')
                   LicenseUri   = 'https://raw.githubusercontent.com/ehagen/td.util/master/LICENSE'
                   ProjectUri   = 'https://github.com/ehagen/TD.Util'
                   # IconUri = ''
