@@ -33,7 +33,22 @@ function Register-AzureDevOpsPackageSource([Parameter(Mandatory = $true)][Valida
             Throw "Register-AzureDevOpsPackageSource error for $Url : $($_.Exception.Message)"
         }
     }
-
-    if (Get-PSRepository -Name $Name -ErrorAction Ignore) { Unregister-PSRepository -Name $Name }
-    Register-PSRepository -Name $Name -SourceLocation $Url -InstallationPolicy Trusted -Credential $Credential
+    
+    try
+    {
+        if (Get-PSRepository -Name $Name -ErrorAction Ignore) { Unregister-PSRepository -Name $Name }
+        Register-PSRepository -Name $Name -SourceLocation $Url -InstallationPolicy Trusted -Credential $Credential
+    }
+    catch
+    {
+        if ($env:windir)
+        {
+            if ($_.Exception.Message -eq "The property 'Name' cannot be found on this object. Verify that the property exists.")
+            {                
+                Write-Warning "Maybe invalid PSRepositories.xml detected in 'C:\Users\$($env:USERNAME)\AppData\Local\Microsoft\Windows\PowerShell\PowerShellGet', check file for correctness"
+            }
+        }
+        Write-Host $_
+        Throw
+    }
 }

@@ -4,6 +4,20 @@
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/td.util.svg?label=PSGallery%20Downloads&logo=PowerShell&style=flat-square)
 [![Build Status](https://dev.azure.com/tedon/TD.Deploy/_apis/build/status/ehagen.TD.Util?branchName=master)](https://dev.azure.com/tedon/TD.Deploy/_build/latest?definitionId=52&branchName=master)
 
+## [0.1.19]
+
+```plain
+### Added
+
+- Added relation between Module and Application. Enables Module lookup for application
+
+### Changed
+
+- Improved output Convert-TokensInFile
+- Improved error message Register-AzureDevOpsPackageSource when invalid PSRepositories.xml detected
+- Improved error message Add-TokensFromAzureKeyVault when Forbidden access to Vault exception occurs
+```
+
 ## [0.1.18]
 
 ```plain

@@ -60,6 +60,10 @@ function Convert-TokensInFile([Parameter(Mandatory = $true)][ValidateNotNullOrEm
                 if ($Tokens.ContainsKey($value))
                 {
 					$v = $Tokens[$value]
+					if ($null -eq $v)
+					{
+						$v = ''
+					}
 					if ($v -is [PSCredential])
 					{
 						$newTokenValue = $v.GetNetworkCredential().Password
@@ -96,21 +100,20 @@ function Convert-TokensInFile([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         New-Item -ItemType Directory (Split-Path -Path $DestFileName) -Force -ErrorAction Ignore | Out-Null
         Set-Content -Path $DestFileName -Value $content -Encoding UTF8
 
-        if ($Global:VerbosePreference -eq 'Continue')
-        {
-            if ($SecondPass.IsPresent -and ($script:cnt -eq 0) )
-            {
-                Write-Host "Tokens replaced: $($script:cnt)"
-            }
-            else
-            {
-                Write-Host "Tokens replaced: $($script:cnt)"
-            }
-        }
-
+		if ( ($Global:VerbosePreference -eq 'Continue') -or ( ($script:cnt -gt 0) -and $ShowTokensUsed.IsPresent ) )
+		{
+			if ($SecondPass.IsPresent -and ($script:cnt -eq 0) )
+			{
+				Write-Host "$($script:cnt) Tokens replaced in '$FileName'"
+			}
+			else
+			{
+				Write-Host "$($script:cnt) Tokens replaced in '$FileName'"
+			}
+		}
     }
     else
     {
-        Throw "Convert-TokensInFile error file not found '$FileName'"
+        Throw "Convert-TokensInFile error: file not found '$FileName'"
     }
 }

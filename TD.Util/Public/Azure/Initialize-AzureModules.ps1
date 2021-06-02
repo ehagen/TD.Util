@@ -14,6 +14,7 @@ function Initialize-AzureModules
 
     if ($null -eq (Get-Module -ListAvailable 'Az'))
     {
+        Write-Host "Installing Az modules, can take some time."
         Install-Module -Name Az -AllowClobber -Scope CurrentUser -Repository PSGallery -Force
     }
     else
