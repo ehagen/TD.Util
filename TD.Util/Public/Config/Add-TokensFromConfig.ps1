@@ -92,6 +92,14 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
                 $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-service", $nodeApp.service)
                 $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-exe", $nodeApp.exe)
                 $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-dotnet-version", $nodeApp.'dotnet-version')
+                if (!$Tokens.ContainsKey("application-$($nodeApp.name)"))
+                {
+                    $Tokens.Add("application-$($nodeApp.name)", $($node.name))
+                }
+                else
+                {
+                    Write-Warning "Duplicate application name '$("application-$($nodeApp.name)")' found"
+                }
             }
         }
     }

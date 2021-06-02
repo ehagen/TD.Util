@@ -82,11 +82,12 @@ Describe 'token Tests' {
         It 'has converted tokens in file' {
             $tokens = @{}
             Add-TokensFromConfig -ConfigPath $configRoot -Tokens $tokens -Env $environment
+            $tokens.Add('WITHCURLY','MyTOK{WITH}')
 
             New-Item "$PSScriptRoot/tmp" -ItemType Directory -Force -ErrorAction Ignore
             $fileWithTokens = "$PSScriptRoot/tmp/.fileWithTokens.xml"
             $convertedFileWithoutTokens = "$PSScriptRoot/tmp/.convertedFileWithoutTokens.xml"
-            "MY File with some tokens __node-app-server__ __service-piranha__" | Set-Content -Path $fileWithTokens -Force -Encoding utf8
+            "MY File with some tokens __node-app-server__ __service-piranha__ __WITHCURLY__" | Set-Content -Path $fileWithTokens -Force -Encoding utf8
 
             Convert-TokensInFile -FileName $fileWithTokens -ShowTokensUsed -DestFileName $convertedFileWithoutTokens -Tokens $tokens
 

@@ -12,7 +12,7 @@ Start browsing the documentation [here](./docs/index.md)
 <p align="center">
   <a href="https://www.powershellgallery.com/packages/TD.Util"><img src="https://img.shields.io/powershellgallery/p/TD.Util.svg"></a>
   <a href="https://github.com/ehagen/TD.Util"><img src="https://img.shields.io/github/languages/top/ehagen/TD.Util.svg"></a>
-  <a href="https://github.com/ehagen/TD>Util"><img src="https://img.shields.io/github/languages/code-size/ehagen/TD.Util.svg"></a>
+  <a href="https://github.com/ehagen/TD.Util"><img src="https://img.shields.io/github/languages/code-size/ehagen/TD.Util.svg"></a>
 </p>
 
 ## Dependencies
