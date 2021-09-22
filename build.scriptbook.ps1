@@ -55,7 +55,7 @@ Task Sign -Depends Build {
     }
     if ($cert)
     {
-        Get-ChildItem (Join-Path $($env:BHBuildOutput) '.\TD.Util.*') | Set-AuthenticodeSignature -Certificate $cert -TimestampServer 'http://timestamp.digicert.com' | Out-Null
+        Get-ChildItem (Join-Path $($env:BHBuildOutput) '.\TD.Util.*') | Set-AuthenticodeSignature -Certificate $cert -TimestampServer 'http://timestamp.digicert.com'
     }
 }
 
@@ -180,8 +180,8 @@ Task BuildMKDocs -PreCondition { $Publish } {
 Task PublishModule -PreCondition { $Publish } {
     if ($env:PsGalleryApiKey)
     {
-        #Publish-Module -Path (Join-Path $PSScriptRoot 'Output/TD.Util') -NuGetApiKey $env:PsGalleryApiKey #-WhatIf -Verbose
-        #Write-Host 'Published to https://www.powershellgallery.com/packages/TD.Util'
+        Publish-Module -Path (Join-Path $PSScriptRoot 'Output/TD.Util') -NuGetApiKey $env:PsGalleryApiKey #-WhatIf -Verbose
+        Write-Host 'Published to https://www.powershellgallery.com/packages/TD.Util'
     }
 }
 

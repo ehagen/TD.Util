@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [bool]$Publish = $true
+    [bool]$Publish = $false
 )
 
 if (-not (Get-Module -ListAvailable -Name 'Scriptbook')) 
