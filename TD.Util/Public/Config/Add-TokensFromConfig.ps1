@@ -24,11 +24,21 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
     {
         foreach ($node in $Nodes)
         {
-            $name = $node."$NameProp"
-            $value = $node."$ValueProp"
-            if ($value -and $value.StartsWith('$'))
+            $name = ''
+            $value = $null
+
+            if (Test-PSProperty $node $NameProp)
             {
-                $value = Invoke-Expression "Write-Output `"$($value)`""
+                $name = $node."$NameProp"
+            }
+
+            if (Test-PSProperty $node $ValueProp)
+            {
+                $value = Get-PSPropertyValue $node "$ValueProp"
+                if ($value -and $value.StartsWith('$'))
+                {
+                    $value = Invoke-Expression "Write-Output `"$($value)`""
+                }    
             }
 
             $pre = $Prefix
@@ -44,6 +54,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
             {
                 if ($node.ParentNode.LocalName -eq 'application')
                 {
+                    $name = ''
                     $pre = "$Prefix$($node.ParentNode.name)"
                 }
             }
@@ -79,19 +90,19 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
 
             Write-Host "Adding module $($node.name) to Token Store"
             $Tokens.Add("module-$($node.name)", $node.name)
-            $Tokens.Add("module-$($node.name)-role", $node.role)
-            $Tokens.Add("module-$($node.name)-depends", $node.depends)
-            $Tokens.Add("module-$($node.name)-folder", $node.folder)
+            $Tokens.Add("module-$($node.name)-role", (Get-PSPropertyValue $node role))
+            $Tokens.Add("module-$($node.name)-depends", (Get-PSPropertyValue $node depends))
+            $Tokens.Add("module-$($node.name)-folder", (Get-PSPropertyValue $node folder))
             $nodeApps = $node.SelectNodes(".//application")
             foreach ($nodeApp in $NodeApps)
             {
                 Write-Host "Adding module $($node.name) application $($nodeApp.name) to Token Store"
                 $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)", $nodeApp.name)
-                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-type", $nodeApp.type)
-                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-role", $nodeApp.role)
-                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-service", $nodeApp.service)
-                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-exe", $nodeApp.exe)
-                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-dotnet-version", $nodeApp.'dotnet-version')
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-type", (Get-PSPropertyValue $nodeApp type))
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-role", (Get-PSPropertyValue $nodeApp role))
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-service", (Get-PSPropertyValue $nodeApp service))
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-exe", (Get-PSPropertyValue $nodeApp exe))
+                $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-dotnet-version", (Get-PSPropertyValue $nodeApp 'dotnet-version'))
                 if (!$Tokens.ContainsKey("application-$($nodeApp.name)"))
                 {
                     $Tokens.Add("application-$($nodeApp.name)", $($node.name))
@@ -139,19 +150,19 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         if ($envNode)
         {
             $Tokens.Add('env-name', $envNode.'name')
-            $Tokens.Add('env-group', $envNode.'group')
-            $Tokens.Add('env-name-short', $envNode.'name-short')
-            $Tokens.Add('env-name-suffix', $envNode.'name-suffix')
-            $Tokens.Add('env-type', $envNode.'type')
-            $Tokens.Add('env-active', $envNode.'active')
-            $Tokens.Add('env-domain', $envNode.'domain')
-            $Tokens.Add('env-domain-full', $envNode.'domain-full')
-            $Tokens.Add('env-domain-description', $envNode.'description')
-            $Tokens.Add('env-domain-owner', $envNode.'owner')
-            $Tokens.Add('env-domain-notes', $envNode.'notes')
-            $Tokens.Add('env-ps-remote-user', $envNode.'ps-remote-user')
-            $Tokens.Add('env-subscription-id', $envNode.'subscription-id')
-            $Tokens.Add('env-vault', $envNode.'vault')
+            $Tokens.Add('env-group', (Get-PSPropertyValue $envNode 'group'))
+            $Tokens.Add('env-name-short', (Get-PSPropertyValue $envNode 'name-short'))
+            $Tokens.Add('env-name-suffix', (Get-PSPropertyValue $envNode 'name-suffix'))
+            $Tokens.Add('env-type', (Get-PSPropertyValue $envNode 'type'))
+            $Tokens.Add('env-active', (Get-PSPropertyValue $envNode 'active'))
+            $Tokens.Add('env-domain', (Get-PSPropertyValue $envNode 'domain'))
+            $Tokens.Add('env-domain-full', (Get-PSPropertyValue $envNode 'domain-full'))
+            $Tokens.Add('env-domain-description', (Get-PSPropertyValue $envNode 'description'))
+            $Tokens.Add('env-domain-owner', (Get-PSPropertyValue $envNode 'owner'))
+            $Tokens.Add('env-domain-notes', (Get-PSPropertyValue $envNode 'notes'))
+            $Tokens.Add('env-ps-remote-user', (Get-PSPropertyValue $envNode 'ps-remote-user'))
+            $Tokens.Add('env-subscription-id', (Get-PSPropertyValue $envNode 'subscription-id'))
+            $Tokens.Add('env-vault', (Get-PSPropertyValue $envNode 'vault'))
         }
     }
     $Tokens.Add('modules', $modules)

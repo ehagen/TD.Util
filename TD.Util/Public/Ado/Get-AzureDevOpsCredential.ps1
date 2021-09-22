@@ -31,7 +31,7 @@ function Get-AzureDevOpsCredential([Parameter(Mandatory = $true)][ValidateNotNul
         }
         else
         {
-            Write-Warning "Unable to resolve ADO Credential on platforms other than Windows"
+            Write-Warning "Unable to resolve Azure DevOps (ADO) Credential on platforms other than Windows"
         }
     }
     else

@@ -5,5 +5,5 @@ Tests/tmp
 coverage.xml
 test-pester.xml
 site/
-
+scratch
 .DS_Store

@@ -5,25 +5,19 @@ Powershell Module build script
 .DESCRIPTION
 This script uses the default PowershellBuild commands to build and publish the Module
 #>
-
-Properties {
-    $PSBPreference.Build.CompileModule = $true
-    $PSBPreference.Test.ScriptAnalysisEnabled = $true
-    $PSBPreference.Test.CodeCoverage.Enabled = $true
-    $PSBPreference.Test.ScriptAnalysis.SettingsPath = './Tests/ScriptAnalyzerSettings.psd1'
-    $PSBPreference.Docs.RootDir = "./output/gen-docs"
-    $Publish = $false
-}
+param(
+    $Actions,
+    $Parameters = @{ Publish = $false }
+)
 
 Task Build -FromModule PowerShellBuild
-Task default -depends `
-    EnvironmentInfo, `
-    EnvironmentVariables, `
-    Build, `
-    Sign, `
-    TestWithCoverage, `
-    BuildMKDocs, `
-    PublishModule
+
+$PSBPreference.Build.CompileModule = $true
+$PSBPreference.Test.ScriptAnalysisEnabled = $true
+$PSBPreference.Test.CodeCoverage.Enabled = $true
+$PSBPreference.Test.ScriptAnalysis.SettingsPath = './Tests/ScriptAnalyzerSettings.psd1'
+$PSBPreference.Docs.RootDir = "./output/gen-docs"    
+$publish = $Parameters.Publish
 
 Task EnvironmentInfo {
     Write-Host ""
@@ -32,7 +26,7 @@ Task EnvironmentInfo {
     Write-Host "           Os: $([System.Environment]::OSVersion.VersionString)"
     Write-Host "       WhoAmI: $([Environment]::UserName)"
     Write-Host "   Powershell: $($PSVersionTable.PsVersion)"
-    Write-Host "Currentfolder: $(Get-Location)"
+    Write-Host "CurrentFolder: $(Get-Location)"
     Write-Host ""
 }
 
@@ -69,7 +63,7 @@ Task TestWithCoverage -depends Build {
     Push-Location .\Tests
     try
     {
-        Invoke-Pester -Script "." -OutputFile "./Test-Pester.XML" -OutputFormat 'NUnitXML' -CodeCoverage "../TD.Util/*.ps1"
+        Invoke-Pester -Script "." -OutputFile "./Test-Pester.XML" -OutputFormat 'NUnitXML' #-CodeCoverage "../TD.Util/*.ps1"
     }
     finally
     {
@@ -155,10 +149,29 @@ Task BuildMKDocs -PreCondition { $Publish } {
 
     Remove-Module $moduleName -Force -ErrorAction Ignore | Out-Null
 
-    if ((Get-Command choco -ErrorAction Ignore) -and !(Get-Command mkdocs -ErrorAction Ignore))
+    if (!(Get-Command mkdocs -ErrorAction Ignore))
     {
-        choco install mkdocs -y
-        pip install "mkdocs-material==6.2.8" --force-reinstall --disable-pip-version-check
+        if ($IsWindows)
+        {
+            if (Get-Command choco -ErrorAction Ignore)
+            {
+                choco install mkdocs -y --no-progress
+                pip install "mkdocs-material==6.2.8" --force-reinstall --disable-pip-version-check
+            }
+            else
+            {
+                Throw "Choco not found, cannot install MKDocs"
+            }
+        }
+        elseif ($IsMacOS)
+        {
+            brew install mkdocs
+            pip3 install "mkdocs-material==6.2.8" --force-reinstall --disable-pip-version-check
+        }
+        else
+        {
+            Throw "MKDocs not supported on this operating system (Linux)"
+        }
     }
 
     mkdocs build
@@ -167,7 +180,16 @@ Task BuildMKDocs -PreCondition { $Publish } {
 Task PublishModule -PreCondition { $Publish } {
     if ($env:PsGalleryApiKey)
     {
-        Publish-Module -Path (Join-Path $PSScriptRoot 'Output/TD.Util') -NuGetApiKey $env:PsGalleryApiKey #-WhatIf -Verbose
-        Write-Host 'Published to https://www.powershellgallery.com/packages/TD.Util'
+        #Publish-Module -Path (Join-Path $PSScriptRoot 'Output/TD.Util') -NuGetApiKey $env:PsGalleryApiKey #-WhatIf -Verbose
+        #Write-Host 'Published to https://www.powershellgallery.com/packages/TD.Util'
     }
 }
+
+Task default -depends `
+    EnvironmentInfo, `
+    EnvironmentVariables, `
+    Build, `
+    Sign, `
+    TestWithCoverage, `
+    BuildMKDocs, `
+    PublishModule

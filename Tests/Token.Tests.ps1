@@ -3,6 +3,8 @@ Describe 'token Tests' {
     BeforeAll {
         . $PSScriptRoot/../TD.Util/Public/Config/Add-TokensFromConfig.ps1
         . $PSScriptRoot/../TD.Util/Public/Config/Convert-TokensInFile.ps1
+        . $PSScriptRoot/../TD.Util/Public/Utilities/Get-PSPropertyValue.ps1
+        . $PSScriptRoot/../TD.Util/Public/Utilities/Test-PSProperty.ps1
 
         $configRoot = './config/1.00'
         $environment = 'develop'

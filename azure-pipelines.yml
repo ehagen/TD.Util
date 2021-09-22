@@ -15,7 +15,7 @@ jobs:
       - task: DownloadSecureFile@1
         displayName: 'Download secure file'
         inputs:
-          secureFile: '9e6096b4-8842-474a-ab4b-7126c0429272'
+          secureFile: '4b113b89-08c3-4d7c-9326-d06d36fe045d'
 
       - pwsh: ./build.ps1
         displayName: 'Build and Test'

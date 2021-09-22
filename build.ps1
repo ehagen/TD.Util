@@ -1,20 +1,29 @@
-<#
-.SYNOPSIS
-PSake bootstrap script to start the build.psake.ps1
-#>
+[CmdletBinding()]
 param(
-    $Publish = $false
+    [bool]$Publish = $true
 )
 
-if (-not (Get-Module PSake -ListAvailable)) { Install-Module PSake -Repository PSGallery -Force }
-if (-not (Get-Module PowerShellBuild -ListAvailable)) { Install-Module PowerShellBuild -AllowClobber -Force }
-if (-not (Get-Module Pester -ListAvailable)) { Install-Module Pester -AllowClobber -Force -SkipPublisherCheck }
+if (-not (Get-Module -ListAvailable -Name 'Scriptbook')) 
+{
+    Install-Module Scriptbook -Scope CurrentUser -Force -AllowClobber -Repository PSGallery
+}
 
-Import-Module PSake
-Import-Module PowerShellBuild
-Import-Module Pester
+Import-Module Scriptbook -Force -Args @{ 
+    Quiet   = $false
+    Reset   = $false
+    Depends = @(
+        @{
+            Module = 'PowerShellBuild'
+            Force  = $true
+        },
+        @{
+            Module             = 'Pester'
+            Force              = $true
+            SkipPublisherCheck = $true
+        }
+    ) 
+}
 
-$psakeParameters = @{Publish = $Publish}
+$parameters = @{ Publish = $Publish }
 
-Invoke-psake -buildFile './build.psake.ps1' -nologo -parameters $psakeParameters -properties $psakeParameters
-exit ([int](-not $psake.build_success))
+Start-Scriptbook -File ./build.scriptbook.ps1 -Parameters $parameters

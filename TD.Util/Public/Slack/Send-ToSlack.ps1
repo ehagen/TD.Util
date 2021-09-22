@@ -26,8 +26,8 @@ Send msg as this User
 .PARAMETER Token
 The Incoming WebHook Token 
 
-.PARAMETER Attachements
-The json structured attachement. See Slack documentation
+.PARAMETER Attachments
+The json structured attachment. See Slack documentation
 
 like
     $attachment = @{
@@ -49,7 +49,7 @@ Send-ToSlack -m 'Hello' -c 'TestChannel' -u 'me' -e ':bomb:' -t 'mytoken...'
 
 .NOTES
 
-for documentation about configuring Slack/Aquire token see 
+for documentation about configuring Slack/Acquire token see 
 https://api.slack.com/messaging/webhooks
 or https://api.slack.com/legacy/custom-integrations
 #>

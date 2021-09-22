@@ -49,17 +49,13 @@ function Add-TokensFromAzureKeyVault([Parameter(Mandatory = $true)][ValidateNotN
             $secrets = Get-AzKeyVaultSecret -VaultName $Vault
             foreach ($secret in $secrets)
             {
-                try
+                $s = Get-AzKeyVaultSecret -VaultName $Vault -Name $secret.Name -ErrorAction Ignore
+                if ($s)
                 {
-                    $s = Get-AzKeyVaultSecret -VaultName $Vault -Name $secret.Name
+                    #$pass = $s.SecretValue | ConvertFrom-SecureString -AsPlainText
+                    $cred = New-Object System.Management.Automation.PSCredential($secret.Name, $s.SecretValue)
+                    Add-Secret $secret.Name $cred
                 }
-                Catch [Microsoft.Azure.KeyVault.Models.KeyVaultErrorException]
-                {
-                    # ignore disabled/expired secrets
-                }
-                #$pass = $s.SecretValue | ConvertFrom-SecureString -AsPlainText
-                $cred = New-Object System.Management.Automation.PSCredential($secret.Name, $s.SecretValue)
-                Add-Secret $secret.Name $cred
             }
         }   
         catch
