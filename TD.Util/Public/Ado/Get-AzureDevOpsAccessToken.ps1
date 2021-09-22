@@ -32,7 +32,7 @@ function Get-AzureDevOpsAccessToken([Parameter(Mandatory = $true)][ValidateNotNu
         }
         else
         {
-            Write-Warning "Unable to resolve ADO Credential on platforms other than Windows"
+            Write-Warning "Unable to resolve Azure DevOps (ADO) Credential on platforms other than Windows"
         }
     }
     return $token
