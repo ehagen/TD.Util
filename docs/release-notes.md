@@ -4,14 +4,14 @@
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/td.util.svg?label=PSGallery%20Downloads&logo=PowerShell&style=flat-square)
 [![Build Status](https://dev.azure.com/tedon/TD.Deploy/_apis/build/status/ehagen.TD.Util?branchName=master)](https://dev.azure.com/tedon/TD.Deploy/_build/latest?definitionId=52&branchName=master)
 
-## [0.1.20]
+## [0.1.21]
 
 ```plain
 ### Added
 - Added support for Set-StrictMode -Latest
 - Added Get-PSPropertyValue
 - Added Test-PSProperty
-- Added Get-EnvironmentVariable
+- Added Get-EnvironmentVar
 
 ### Changed
 

@@ -15,7 +15,7 @@ Default value of the environment variable when not found
 Ignores casing by checking ToLower and ToUpper variants
 
 #>
-function Get-EnvironmentVariable
+function Get-EnvironmentVar
 {
     param([alias('n')][string]$Name, [alias('d')][string]$Default = $null, [switch]$IgnoreCasing)
 
