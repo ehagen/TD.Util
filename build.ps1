@@ -13,8 +13,9 @@ Import-Module Scriptbook -Force -Args @{
     Reset   = $false
     Depends = @(
         @{
-            Module = 'PowerShellBuild'
-            Force  = $true
+            Module         = 'PowerShellBuild'
+            MaximumVersion = '0.4.0'
+            Force          = $true
         },
         @{
             Module             = 'Pester'
