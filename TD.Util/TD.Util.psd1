@@ -1,12 +1,12 @@
 @{
       RootModule           = 'TD.Util.psm1'
-      ModuleVersion        = '0.1.23'
+      ModuleVersion        = '0.1.24'
       GUID                 = '62f2ff10-4b3c-4464-b863-e7352e07468e'
       Author               = 'Edwin Hagen'
       CompanyName          = 'Tedon Technology BV'
       CompatiblePSEditions = @()
       Copyright            = '(c) [2020-2021] Tedon Technology BV. All rights reserved.'
-      Description          = 'Tedon Util module'
+      Description          = 'Tedon Utilities module'
       PowerShellVersion    = '3.0'
       RequiredModules      = @()
       FunctionsToExport    = '*'
