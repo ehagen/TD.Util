@@ -4,6 +4,8 @@ Describe 'token Tests' {
         . $PSScriptRoot/../TD.Util/Public/Json/Read-ObjectFromJsonFile.ps1
         . $PSScriptRoot/../TD.Util/Public/Json/Save-ObjectToJsonFile.ps1
         . $PSScriptRoot/../TD.Util/Public/Json/SecureStringStorage.ps1
+        . $PSScriptRoot/../TD.Util/Public/Json/New-SecureStringStorage.ps1
+        . $PSScriptRoot/../TD.Util/Public/Json/Test-IsSecureStringStorageObject.ps1
     }
 
     Context 'Loading and Saving Json' {
@@ -15,6 +17,11 @@ Describe 'token Tests' {
             $s = [SecureStringStorage]::New('MySecret')
             $s.GetPlainString() | Should -Be 'MySecret'
             $s.ToString() | Should -Not -Be 'MySecret'
+        }
+
+        It 'Can Create and Test for SecureStorageObject Object' {
+            $obj = New-SecureStringStorage 'Hello'
+            Test-IsSecureStringStorageObject $obj | Should -Be $true
         }
 
         It 'Load/Save Json Object' {

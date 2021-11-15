@@ -17,13 +17,13 @@ Start browsing the documentation [here](./docs/index.md)
 
 ## Dependencies
 
-- PSake Module
+- Scriptbook Module
 - PowerShellBuild Module
 
 ## Requirements
 
-- PowerShell Core 6.* or higher
-- Windows version PowerShell Core
+- PowerShell 6.* or higher
+- Windows PowerShell 5.1
 
 ## Build and Test
 
@@ -39,7 +39,10 @@ Each module contains private functions, public functions and PSake tasks. The fo
           - Ado (Azure DevOps)
           - Azure
           - Config 
+          - Git
+          - Json
           - Slack
+          - Utilities
         psd file
         psm file
         psakefile (optional)
