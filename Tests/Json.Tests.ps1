@@ -1,4 +1,4 @@
-Describe 'token Tests' {
+Describe 'Json Tests' {
 
     BeforeAll {
         . $PSScriptRoot/../TD.Util/Public/Json/Read-ObjectFromJsonFile.ps1
@@ -15,6 +15,11 @@ Describe 'token Tests' {
             $s.GetPlainString() | Should -Be 'MySecret'
             $s.ToString() | Should -Not -Be 'MySecret'
             $s = [SecureStringStorage]::New('MySecret')
+            $s.GetPlainString() | Should -Be 'MySecret'
+            $s.ToString() | Should -Not -Be 'MySecret'
+
+            $ss = ConvertTo-SecureString -String 'MySecret' -Force -AsPlainText
+            $s = [SecureStringStorage]::New($ss)
             $s.GetPlainString() | Should -Be 'MySecret'
             $s.ToString() | Should -Not -Be 'MySecret'
         }
@@ -54,9 +59,15 @@ Describe 'token Tests' {
             $fileName = "S(New-Guid).json"
 
             $object = [PSCustomObject]@{
-                Name  = 'Hello'
-                Title = 'World'
+                Name   = 'Hello'
+                Title  = 'World'
                 Secret = [SecureStringStorage]'mySecret'
+            }
+
+            $object2 = [PSCustomObject]@{
+                Name   = 'Hello'
+                Title  = 'World'
+                Secret = ConvertTo-SecureString -String 'MySecret' -Force -AsPlainText
             }
 
             try
@@ -74,6 +85,16 @@ Describe 'token Tests' {
                 $object.Name | Should -Be 'Hello'
                 $object.Title | Should -Be 'World'
                 $object.Secret.GetPlainString() | Should -Be 'mySecret'
+
+                # with secure string
+                Save-ObjectToJsonFile -Path $fileName -Object $object2
+                $object2 = Get-Content -Path $fileName | ConvertFrom-Json -Depth 10
+                $object2.Name | Should -Be 'Hello'
+                $object2.Secret.TypeName | Should -Be 'SecureStringStorage'
+
+                $object2 = Read-ObjectFromJsonFile -Path $fileName
+                $object2.Title | Should -Be 'World'
+                $object2.Secret.GetPlainString() | Should -Be 'mySecret'
             }
             finally
             {

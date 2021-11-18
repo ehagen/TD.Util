@@ -9,6 +9,10 @@ class SecureStringStorage
         {
             $this.String = $String.String
         }
+        elseif (($String -is [SecureString]))
+        {
+            $this.String = $String | ConvertFrom-SecureString
+        }
         else
         {
             $this.String = ConvertTo-SecureString -String $String -AsPlainText -Force | ConvertFrom-SecureString
