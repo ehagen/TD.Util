@@ -9,10 +9,10 @@ Get tokens from xml config repository and add them to token collection
 Root path of the xml config files
 
 .PARAMETER Tokens
-Hashtable to add tokens to
+HashTable to add tokens to
 
 .PARAMETER Env
-Token environment filter, filter the tokens by environent like local, develop, test etc...
+Token environment filter, filter the tokens by environment like local, develop, test etc...
 
 .Example
 $Tokens = @{}
@@ -62,7 +62,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
             if ($pre)
             {
                 $kn = "$pre$name"
-                Write-Host "Adding variable $kn : $value to Token Store"
+                Write-Host "Adding variable '$kn' = '$value' to Token Store"
                 if (!$Tokens.ContainsKey($kn))
                 {
                     $Tokens.Add($kn, $value)
@@ -72,7 +72,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
             {
                 if (!$Tokens.ContainsKey($name))
                 {
-                    Write-Host "Adding variable $name : $value to Token Store"
+                    Write-Host "Adding variable '$name' = '$value' to Token Store"
                     $Tokens.Add($name, $value)
                 }
             }
@@ -88,7 +88,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
                 continue
             }
 
-            Write-Host "Adding module $($node.name) to Token Store"
+            Write-Host "Adding module '$($node.name)' to Token Store"
             $Tokens.Add("module-$($node.name)", $node.name)
             $Tokens.Add("module-$($node.name)-role", (Get-PSPropertyValue $node role))
             $Tokens.Add("module-$($node.name)-depends", (Get-PSPropertyValue $node depends))
@@ -96,7 +96,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
             $nodeApps = $node.SelectNodes(".//application")
             foreach ($nodeApp in $NodeApps)
             {
-                Write-Host "Adding module $($node.name) application $($nodeApp.name) to Token Store"
+                Write-Host "Adding module '$($node.name)' application '$($nodeApp.name)' to Token Store"
                 $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)", $nodeApp.name)
                 $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-type", (Get-PSPropertyValue $nodeApp type))
                 $Tokens.Add("module-$($node.name)-application-$($nodeApp.name)-role", (Get-PSPropertyValue $nodeApp role))
@@ -117,7 +117,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
 
     $modules = @()
     Get-ChildItem "$ConfigPath\*.xml" -Recurse | ForEach-Object {
-        $doc = [xml] (Get-Content $_.Fullname)
+        $doc = [xml] (Get-Content $_.FullName)
         $nodes = $doc.SelectNodes("//variable[@environment='$Env' or not(@environment)]")
         Add-Var $nodes
         $nodes = $doc.SelectNodes("//node")
@@ -130,6 +130,7 @@ function Add-TokensFromConfig([Parameter(Mandatory = $true)][ValidateNotNullOrEm
         {
             Add-Var $nodes -Prefix 'service-'
             Add-Var $nodes -Prefix 'service-cert-hash-' -ValueProp 'cert-hash'
+            Add-Var $nodes -Prefix 'service-cert-name-' -ValueProp 'cert-name'
             Add-Var $nodes -Prefix 'service-type-' -ValueProp 'type'
             Add-Var $nodes -Prefix 'service-healthcheck-' -ValueProp 'healthcheck'
             Add-Var $nodes -Prefix 'service-healthcheck-type-' -ValueProp 'healthcheck-type'

@@ -1,14 +1,14 @@
 <environment name="develop" active="true" interactive="false" domain="." domain-full="." description="" owner="" notes="" ps-remote-user="">
     <nodes>
         <node name="$([Environment]::MachineName)" role="ad-server" tag="always"/>
-        <node name="$env:ComputerName" role="db-server" description="Primary Database" tag="never"/>
-        <node name="$env:ComputerName" target="ta-bs" role="mq-server" tag="maintenance"/>
-        <node name="$env:ComputerName" role="app-server" tag="never"/>
-        <node name="$env:ComputerName" role="batch-server" tag="never"/>
-        <node name="$env:ComputerName" role="web-server" ps-remote-user="" tag="never,2016,2019"/>
-        <node name="$env:ComputerName" role="web-server" ps-remote-user="" tag="2016,2016P,2019"/>
-        <node name="$env:ComputerName" role="db-ext-server" psremoting-user="" tag="never"/>
-        <node name="$env:ComputerName" role="web2-server" tag="2013"/>
+        <node name="$([Environment]::MachineName)" role="db-server" description="Primary Database" tag="never"/>
+        <node name="$([Environment]::MachineName)" target="ta-bs" role="mq-server" tag="maintenance"/>
+        <node name="$([Environment]::MachineName)" role="app-server" tag="never"/>
+        <node name="$([Environment]::MachineName)" role="batch-server" tag="never"/>
+        <node name="$([Environment]::MachineName)" role="web-server" ps-remote-user="" tag="never,2016,2019"/>
+        <node name="$([Environment]::MachineName)" role="web-server" ps-remote-user="" tag="2016,2016P,2019"/>
+        <node name="$([Environment]::MachineName)" role="db-ext-server" psremoting-user="" tag="never"/>
+        <node name="$([Environment]::MachineName)" role="web2-server" tag="2013"/>
         <node name="IISDOTNET" role="virtual" ignore-status="true" tag="never"/>
         <node name="." target="ta-bs" role="file-server" tag="2016,2019"/>
         <node name="." target="ta-bs" role="file-server" tag="2016,2019"/>

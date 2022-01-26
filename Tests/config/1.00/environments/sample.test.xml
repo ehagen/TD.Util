@@ -1,9 +1,9 @@
 <environment name="test" active="true" interactive="false" domain="." domain-full="." description="" owner="" notes="">
     <nodes>
-        <node name="$env:ComputerName" target="ta-bs" alias="ad-server" image="win2016" role="ad-server"/>
-        <node name="$env:ComputerName" target="ta-bs" role="db-server" image="win2016" description="Primary Database"/>
-        <node name="$env:ComputerName" target="ta-bs" role="app-server" image="win2016"/>
-        <node name="$env:ComputerName" target="ta-bs" role="web-server" image="win2016" definition="web-server">
+        <node name="$([Environment]::MachineName)" target="ta-bs" alias="ad-server" image="win2016" role="ad-server"/>
+        <node name="$([Environment]::MachineName)" target="ta-bs" role="db-server" image="win2016" description="Primary Database"/>
+        <node name="$([Environment]::MachineName)" target="ta-bs" role="app-server" image="win2016"/>
+        <node name="$([Environment]::MachineName)" target="ta-bs" role="web-server" image="win2016" definition="web-server">
             <disk name="d" size="40gb" />
         </node>
         <node name="." target="ta-bs" role="file-server" />
