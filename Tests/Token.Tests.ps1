@@ -24,9 +24,10 @@ Describe 'token Tests' {
 
             $tokens.Keys.Count | Should -Not -Be 0
 
-            $tokens['node-app-server'] | Should -Not -BeNullOrEmpty
+            $tokens['node-app-server'] | Should -Be "$([Environment]::MachineName)"
             $tokens['service-piranha'] | Should -Not -BeNullOrEmpty
             $tokens['service-cert-hash-piranha'] | Should -Not -BeNullOrEmpty
+            $tokens['service-cert-name-piranha'] | Should -Not -BeNullOrEmpty
             $tokens['service-healthcheck-piranha'] | Should -Not -BeNullOrEmpty
             $tokens['service-healthcheck-type-piranha'] | Should -Not -BeNullOrEmpty
             $tokens['service-healthcheck-interval-piranha'] | Should -Not -BeNullOrEmpty

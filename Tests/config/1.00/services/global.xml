@@ -1,10 +1,10 @@
 <services>
     <service-description name="piranha" title="Piranha CMS" role="web-server" project="piranha" module="piranha" type="website" descripton="" group="sample" documentation-ref="">
-        <service name="piranha" environment="develop" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" healthcheck-type="rest" cert-hash="B123456789987654321A" healthcheck-interval="1m" type="website" group="sample" />
-        <service name="piranha" environment="test" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
-        <service name="piranha" environment="acceptance" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
-        <service name="piranha" environment="production" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
-        <service name="piranha" environment="alm" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="develop" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" healthcheck-type="rest" cert-hash="B123456789987654321A" cert-name="*.azurewebsites.net" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="test" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" cert-name="*.azurewebsites.net" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="acceptance" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" cert-name="*.azurewebsites.net" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="production" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" cert-name="*.azurewebsites.net" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
+        <service name="piranha" environment="alm" value="https://piranha.azurewebsites.net" healthcheck="https://piranha.azurewebsites.net" cert-name="*.azurewebsites.net" healthcheck-type="rest" healthcheck-interval="1m" type="website" group="sample" />
     </service-description>
     <service-description name="piranha.db" role="db-server" title="Piranha database" project="piranha" module="piranha" type="database" descripton="" group="sample" documentation-ref="">
         <service name="piranha.db" environment="develop" type="database" value="Data Source=CONN-SQL-DEV;Initial Catalog=piranha_db;Trusted_Connection=True" healthcheck="" group="sample" />
