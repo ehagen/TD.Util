@@ -4,6 +4,12 @@
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/td.util.svg?label=PSGallery%20Downloads&logo=PowerShell&style=flat-square)
 [![Build Status](https://dev.azure.com/tedon/TD.Deploy/_apis/build/status/ehagen.TD.Util?branchName=master)](https://dev.azure.com/tedon/TD.Deploy/_build/latest?definitionId=52&branchName=master)
 
+## [0.1.28]
+
+```plain
+### Added
+- Added secret alternative name support by using KeyVault Secrets Tags 'alt-name', additional second token is created with this name. Use to circumvent Azure KeyVault Secret name character restrictions
+
 ## [0.1.27]
 
 ```plain
