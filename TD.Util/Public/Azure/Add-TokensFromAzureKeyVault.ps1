@@ -55,6 +55,14 @@ function Add-TokensFromAzureKeyVault([Parameter(Mandatory = $true)][ValidateNotN
                     #$pass = $s.SecretValue | ConvertFrom-SecureString -AsPlainText
                     $cred = New-Object System.Management.Automation.PSCredential($secret.Name, $s.SecretValue)
                     Add-Secret $secret.Name $cred
+
+                    # Secret alternative name support by using KeyVault Secrets Tags 'alt-name', additional second token is created with this name.
+                    # Use it to circumvent Azure KeyVault Secret name character restrictions
+                    if ($s.Tags -and $s.Tags.ContainsKey('alt-name'))
+                    {
+                        $cred = New-Object System.Management.Automation.PSCredential($s.Tags.'alt-name', $s.SecretValue)
+                        Add-Secret $s.Tags.'alt-name' $cred
+                    }
                 }
             }
         }   
