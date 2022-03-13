@@ -19,9 +19,9 @@ function Get-AdoUri
             { 
                 $lUri = [System.Uri]"https://dev.azure.com/$Organization" 
             } 
-            else 
+            else
             { 
-                Throw "Unable to create VSTS url, no Organization defined" 
+                Throw "Unable to create Azure DevOps organization url, no Organization defined"
             } 
         } 
     } 

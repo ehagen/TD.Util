@@ -1,6 +1,6 @@
 function Get-AdoRepositoryPolicy
 {
-    param([alias('u', 'Uri')][string]$AdoUri, [alias('t', 'Token', 'Pat')][string]$AdoAuthToken, $Organization, $Project, $RepoId, $Refname, $ApiVersion = '5.0')
+    param([alias('u', 'Uri')][string]$AdoUri, [alias('t', 'Token', 'Pat')][string]$AdoAuthToken, $Organization, $Project, $RepoId, $RefName, $ApiVersion = '5.0')
 
     if ($RepoId)
     {
