@@ -7,6 +7,7 @@ Describe 'Utility Tests' {
         . $PSScriptRoot/../TD.Util/Public/Utilities/Convert-ObjectToHashTable.ps1
         . $PSScriptRoot/../TD.Util/Public/Utilities/Merge-Objects.ps1
         . $PSScriptRoot/../TD.Util/Public/Utilities/Copy-ObjectPropertyValues.ps1
+        . $PSScriptRoot/../TD.Util/Public/Utilities/Get-UniqueId.ps1
     }
 
     Context 'Utility functions' {
@@ -34,6 +35,15 @@ Describe 'Utility Tests' {
         It 'Can get RandomString' {
             $s = Get-RandomString 40
             $s.Length | Should -Be 40
+        }
+
+        It 'Can get UniqueId' {
+            $s = Get-UniqueId 6
+            $s.Length | Should -Be 6
+            $s = Get-UniqueId 20 
+            $s.Length | Should -Be 20
+            $s = Get-UniqueId
+            $s.Length | Should -Be 32
         }
 
         It 'Can get ArrayCount' {
