@@ -6,10 +6,11 @@ function Get-AdoBuilds
         [ValidateNotNullOrEmpty()]$Organization,
         [ValidateNotNullOrEmpty()]$Project,
         [ValidateNotNull()]$DefinitionId,
+        $StatusFilter,
         $ApiVersion = '6.0'
     )
 
-    $url = "$(Get-AdoUri $AdoUri $Project $Organization)/_apis/build/builds?definitions=$($DefinitionId)&api-version=$ApiVersion"
+    $url = "$(Get-AdoUri $AdoUri $Project $Organization)/_apis/build/builds?definitions=$($DefinitionId)&statusFilter=$StatusFilter&api-version=$ApiVersion"
     $builds = Invoke-RestMethod -Uri $url -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -TimeoutSec 60
     return , $builds.value
 }
