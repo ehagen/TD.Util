@@ -31,7 +31,7 @@ Start browsing the documentation [here](./docs/index.md)
 
 ## Structure TD.Util module
 
-Each module contains private functions, public functions and PSake tasks. The folder layout used within git repo is:
+Each module contains private functions and public functions. The folder layout used within git repo is:
 
     - module
         - Private
@@ -45,4 +45,3 @@ Each module contains private functions, public functions and PSake tasks. The fo
           - Utilities
         psd file
         psm file
-        psakefile (optional)

@@ -17,13 +17,6 @@ Register-AzureDevOpsPackageSource -Name 'MyCustomFeedName' -Url 'https://pkgs.de
 Import-AzureDevOpsModules -PackageSource 'MyCustomFeedName' -Modules @('module1','module2') -Credential $credential -Latest
 ```
 
-## Register Azure DevOps private Artifacts Feed (package-source) & import modules from this Artifacts Feed
-
-```powershell
-Register-AzureDevOpsPackageSource -Name 'MyCustomFeedName' -Url 'https://pkgs.dev.azure.com/!company!/_packaging/!feedname!/nuget/v2' -Credential $credential
-Import-AzureDevOpsModules -PackageSource 'MyCustomFeedName' -Modules @('module1','module2') -Credential $credential -Latest
-```
-
 ## Publish Package to private Azure DevOps Artifacts Feed
 
 ```powershell
@@ -38,4 +31,5 @@ Add-TokensFromAzureKeyVault -Vault 'MyVaultName' -Tokens $Tokens -SubscriptionId
 ```
 
 ## Send message to Slack
+
 [See here](./Functions/Slack/Send-ToSlack.md)
