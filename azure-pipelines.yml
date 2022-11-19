@@ -5,7 +5,7 @@ jobs:
   - job: BuildModule
 
     pool:
-      vmImage: vs2017-win2016
+      vmImage: 'windows-2022'
 
     steps:
       - task: NuGetToolInstaller@0
