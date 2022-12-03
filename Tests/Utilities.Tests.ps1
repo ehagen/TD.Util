@@ -8,9 +8,32 @@ Describe 'Utility Tests' {
         . $PSScriptRoot/../TD.Util/Public/Utilities/Merge-Objects.ps1
         . $PSScriptRoot/../TD.Util/Public/Utilities/Copy-ObjectPropertyValues.ps1
         . $PSScriptRoot/../TD.Util/Public/Utilities/Get-UniqueId.ps1
+        . $PSScriptRoot/../TD.Util/Public/Utilities/Write-Header.ps1
+        . $PSScriptRoot/../TD.Util/Public/Utilities/Write-Params.ps1
+        . $PSScriptRoot/../TD.Util/Public/Utilities/Write-HostDetails.ps1
     }
 
     Context 'Utility functions' {
+
+        It 'Can Write header' {
+            function Hello
+            {
+                param($Name, $Second)
+
+                Write-Header -Title 'My Script' -Invocation $PSCommandPath -ExtraParams @{MyVar='hello'} -ShowHost
+                Write-Host;Write-Host;
+                Write-Header -Title 'My Script2' -ExtraParams @{MyVar='hello'}
+                Write-Host;Write-Host;
+                Write-Header -Title 'My Script3' -Invocation $PSCmdlet.MyInvocation -ExtraParams @{MyVar='hello'} -ShowHost
+                Write-Host;Write-Host;
+                Write-Header -Title 'My Script4' -Invocation $PSCmdlet -ExtraParams @{MyVar='hello'} -ShowHost
+                Write-Host;Write-Host;
+                Write-Header -Title 'My Function' -Invocation $MyInvocation
+                Write-Host;Write-Host;
+                Write-Params -Invocation $MyInvocation
+            }
+            hello -Name 'FromMe' -Second 'HelloTo'
+        }
 
         It 'Can Copy properties from one object to another' {
 

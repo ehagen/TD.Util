@@ -4,6 +4,16 @@
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/td.util.svg?label=PSGallery%20Downloads&logo=PowerShell&style=flat-square)
 [![Build Status](https://dev.azure.com/tedon/TD.Deploy/_apis/build/status/ehagen.TD.Util?branchName=master)](https://dev.azure.com/tedon/TD.Deploy/_build/latest?definitionId=52&branchName=master)
 
+## [0.1.32] - 2022-12-03
+
+```plain
+### Added
+- Added Get-AdoPools
+- Added Add-AdoPool
+- Added Remove-AdoPool
+- Added Update-AdoPool
+- Added Write-Header & Write-Params & Write-HostDetails for logging & debugging purpose
+
 ## [0.1.31] - 2022-11-19
 
 ```plain
