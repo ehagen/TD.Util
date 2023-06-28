@@ -5,10 +5,16 @@ function Get-AdoBuildDefinitions
         [ValidateNotNullOrEmpty()][alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
         [ValidateNotNullOrEmpty()]$Organization,
         [ValidateNotNullOrEmpty()]$Project,
-        $ApiVersion = '6.0'
+        [switch]$Expand,
+        $ApiVersion = '7.0'
     )
 
-    $url = "$(Get-AdoUri $AdoUri $project $Organization)/_apis/build/definitions?api-version=$ApiVersion"
+    $extraValues = $null
+    if ($Expand.IsPresent)
+    {
+        $extraValues = 'includeAllProperties=true&includeLatestBuilds=true&'
+    }
+    $url = "$(Get-AdoUri $AdoUri $project $Organization)/_apis/build/definitions?$($extraValues)api-version=$ApiVersion"
     $defs = Invoke-RestMethod -Uri $url -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -TimeoutSec 60
     return , $defs.Value
 }

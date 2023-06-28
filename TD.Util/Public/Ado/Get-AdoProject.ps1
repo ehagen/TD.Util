@@ -1,7 +1,13 @@
 function Get-AdoProject
 {
     [CmdletBinding()]
-    param([alias('u', 'Uri')][string]$AdoUri, [alias('t', 'Token', 'Pat')][string]$AdoAuthToken, $ApiVersion = '5.0', $Organization, $Project)
+    param(
+        [ValidateNotNullOrEmpty()][alias('u', 'Uri')][string]$AdoUri,
+        [ValidateNotNullOrEmpty()][alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
+        [ValidateNotNullOrEmpty()]$Organization,
+        [ValidateNotNullOrEmpty()]$Project,
+        $ApiVersion = '7.0'
+    )
 
     try
     {

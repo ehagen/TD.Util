@@ -1,4 +1,4 @@
-function Get-AdoBuildLogs
+function Get-AdoPipelineRunLogs
 { 
     param(
         [ValidateNotNullOrEmpty()][alias('u', 'Uri')][string]$AdoUri,
@@ -6,10 +6,11 @@ function Get-AdoBuildLogs
         [ValidateNotNullOrEmpty()]$Organization,
         [ValidateNotNullOrEmpty()]$Project,
         [ValidateNotNull()]$Id,
+        [ValidateNotNull()]$RunId,
         $ApiVersion = '7.0'
     )
 
-    $url = "$(Get-AdoUri $AdoUri $Project $Organization)/_apis/build/builds/$($Id)/logs?api-version=$ApiVersion"
+    $url = "$(Get-AdoUri $AdoUri $Project $Organization)/_apis/pipelines/$($Id)/runs/$($RunId)/logs?api-version=$ApiVersion"
     $logs = Invoke-RestMethod -Uri $url -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -TimeoutSec 60
-    return , $logs.value
+    return , $logs.logs
 } 
