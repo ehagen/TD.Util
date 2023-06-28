@@ -7,10 +7,16 @@ function Get-AdoBuilds
         [ValidateNotNullOrEmpty()]$Project,
         [ValidateNotNull()]$DefinitionId,
         $StatusFilter,
+        [switch]$NoLimit,
         $ApiVersion = '6.0'
     )
 
-    $url = "$(Get-AdoUri $AdoUri $Project $Organization)/_apis/build/builds?definitions=$($DefinitionId)&statusFilter=$StatusFilter&api-version=$ApiVersion"
+    $limit = 'maxBuildsPerDefinition=50&'
+    if ($NoLimit.IsPresent)
+    {
+        $limit = ''
+    }
+    $url = "$(Get-AdoUri $AdoUri $Project $Organization)/_apis/build/builds?$($limit)queryOrder=startTimeDescending&definitions=$($DefinitionId)&statusFilter=$StatusFilter&api-version=$ApiVersion"
     $builds = Invoke-RestMethod -Uri $url -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -TimeoutSec 60
     return , $builds.value
 }

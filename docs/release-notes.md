@@ -4,6 +4,14 @@
 ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/td.util.svg?label=PSGallery%20Downloads&logo=PowerShell&style=flat-square)
 [![Build Status](https://dev.azure.com/tedon/TD.Deploy/_apis/build/status/ehagen.TD.Util?branchName=master)](https://dev.azure.com/tedon/TD.Deploy/_build/latest?definitionId=52&branchName=master)
 
+## [0.1.34] - 2023-06-28
+
+```plain
+### Added
+- Added AdoPipeline functions
+- Added AdoBuild functions
+- Added AdoProject function
+
 ## [0.1.33] - 2023-02-04
 
 ```plain
