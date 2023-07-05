@@ -8,6 +8,7 @@ function Get-AdoProjectBuilds
         $Filter = { $_ },
         [switch]$IncludeMissingBuilds,
         [switch]$NoDistinct,
+        [string]$DetectScanningString = 'job: Security',
         $ApiVersion = '7.0'
     )
     $buildCollection = [System.Collections.ArrayList]::New()
@@ -76,13 +77,13 @@ function Get-AdoProjectBuilds
                 try
                 {
                     # we use optimalization here and asume we always have logId 1
-                    $log = Get-AdoBuildLog -Token $token -Organization $organization -Project $prj.Name -Id $_.id -LogId 1 #$build.Id
+                    $log = Get-AdoBuildLog @params -Project $prj.Name -Id $_.id -LogId 1 #$build.Id
                 }
                 catch
                 {
                     $log = ''
                 }
-                $hasScanning = $log.Contains('job: Security')
+                $hasScanning = $log.Contains($DetectScanningString)
                 [void]$buildCollection.Add([PSCustomObject]@{
                         Project     = $_.project.name
                         Definition  = $_.definition.name
@@ -101,7 +102,7 @@ function Get-AdoProjectBuilds
                         Reason      = $_.reason
                         Url         = $_.url
                         WebUrl      = $_._links.web.href
-                        DefUrl      = $d._links.web.href
+                        DefUrl      = $definition._links.web.href
                         Object      = $_
                         ProcessType = $procType
                         ProcessYaml = $procYaml
@@ -162,6 +163,7 @@ function Get-AdoProjectBuilds
                         TotalBuilds = $totalBuilds
                         User        = $user
                         Missing     = $true
+                        HasScanning = $false
                     })
             }
         }
