@@ -1,4 +1,4 @@
-function Add-AdoAzureArmEndpoint
+function Update-AdoAzureArmEndpoint
 {
     param(
         [alias('u', 'Uri')][string]$AdoUri,
@@ -47,42 +47,6 @@ function Add-AdoAzureArmEndpoint
             }
         )
     }
-    # alternative: az devops service-endpoint create
-    #     $endPoint = @"
-    # {
-    #     "data": {
-    #         "subscriptionId": "$SubscriptionId",
-    #         "subscriptionName": "$SubscriptionName",
-    #         "environment": "AzureCloud",
-    #         "scopeLevel": "Subscription",
-    #         "creationMode": "Manual"
-    #     },
-    #     "name": "$Name",
-    #     "type": "AzureRM",
-    #     "url": "https://management.azure.com/",
-    #     "authorization": {
-    #         "parameters": {
-    #         "tenantid": "$TenantId",
-    #         "serviceprincipalid": "$ServicePrincipalId",
-    #         "authenticationType": "spnKey",
-    #         "serviceprincipalkey": "$ServicePrincipalKey"
-    #         },
-    #         "scheme": "ServicePrincipal"
-    #     },
-    #     "isShared": false,
-    #     "isReady": true,
-    #     "serviceEndpointProjectReferences": [
-    #         {
-    #         "projectReference": {
-    #             "id": "$ProjectId",
-    #             "name": "$Project"
-    #         },
-    #         "name": "$Name"
-    #         }
-    #     ]
-    # }
-    # "@
-
-    $res = Add-AdoEndpoint -u $Uri -t $AdoAuthToken -Organization $Organization -Project $Project -EndPoint $endPoint -ApiVersion $ApiVersion
+    $res = Update-AdoEndpoint -u $Uri -t $AdoAuthToken -Organization $Organization -Project $Project -EndPoint $endPoint -ApiVersion $ApiVersion
     return $res
 }
