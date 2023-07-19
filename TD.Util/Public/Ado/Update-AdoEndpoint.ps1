@@ -1,4 +1,4 @@
-function Add-AdoEndpoint
+function Update-AdoEndpoint
 {
     param(
         [alias('u', 'Uri')][string]$AdoUri,
@@ -20,7 +20,7 @@ function Add-AdoEndpoint
         $body = $EndPoint | ConvertTo-Json -Depth 10 -Compress
     }
 
-    $result = Invoke-RestMethod -Method Post -Uri $url -Body $body -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -ContentType 'application/json' -TimeoutSec 60
+    $result = Invoke-RestMethod -Method Put -Uri $url -Body $body -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -ContentType 'application/json' -TimeoutSec 60
     
     return $result
 }
