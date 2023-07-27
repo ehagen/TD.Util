@@ -5,11 +5,12 @@ function Update-AdoEndpoint
         [alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
         $Organization,
         $Project,
+        $EndPointId,
         $EndPoint,
         [switch]$AsJson, $ApiVersion = '7.0'
     )
 
-    $url = "$(Get-AdoUri -Uri $AdoUri -Project $Project -Organization $Organization)/_apis/serviceendpoint/endpoints?api-version=$($ApiVersion)"
+    $url = "$(Get-AdoUri -Uri $AdoUri -Project $Project -Organization $Organization)/_apis/serviceendpoint/endpoints/$($EndPointId)?api-version=$($ApiVersion)"
 
     if ($AsJson.IsPresent)
     {
