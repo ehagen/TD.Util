@@ -6,6 +6,7 @@ function Update-AdoAzureArmEndpoint
         $Organization,
         $Project,
         $ProjectId,
+        $EndPointId,
         $ApiVersion = '7.0',
         $Name,
         $SubscriptionId,
@@ -47,6 +48,6 @@ function Update-AdoAzureArmEndpoint
             }
         )
     }
-    $res = Update-AdoEndpoint -u $Uri -t $AdoAuthToken -Organization $Organization -Project $Project -EndPoint $endPoint -ApiVersion $ApiVersion
+    $res = Update-AdoEndpoint -u $Uri -t $AdoAuthToken -Organization $Organization -Project $Project -EndPoint $endPoint -EndPointId $EndPointId -ApiVersion $ApiVersion
     return $res
 }
