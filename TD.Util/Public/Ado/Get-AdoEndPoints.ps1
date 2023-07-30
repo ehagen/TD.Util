@@ -1,6 +1,14 @@
 function Get-AdoEndPoints
 {
-    param([alias('u', 'Uri')][string]$AdoUri, [alias('t', 'Token', 'Pat')][string]$AdoAuthToken, $Organization, $Project, $ApiVersion = '6.0-preview.4', $Type, [switch]$Detailed)
+    param(
+        [alias('u', 'Uri')][string]$AdoUri,
+        [alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
+        $Organization,
+        $Project,
+        $ApiVersion = '7.0',
+        $Type,
+        [switch]$Detailed
+    )
 
     $detailOption = ''
     if ($detailed.IsPresent)

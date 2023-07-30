@@ -1,6 +1,13 @@
 function Add-AdoPool
 {
-    param([alias('u', 'Uri')][string]$AdoUri, [alias('t', 'Token', 'Pat')][string]$AdoAuthToken, $Organization, $Name, $Body, $ApiVersion = '7.0')
+    param(
+        [alias('u', 'Uri')][string]$AdoUri,
+        [alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
+        $Organization,
+        $Name,
+        $Body,
+        $ApiVersion = '7.0'
+    )
 
     $url = "$(Get-AdoUri -Uri $AdoUri -Organization $Organization)/_apis/distributedtask/pools?api-version=$($ApiVersion)"
 
@@ -20,5 +27,5 @@ function Add-AdoPool
     }
 
     $result = Invoke-RestMethod -Method Post -Uri $url -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -ContentType 'application/json' -TimeoutSec 60 -Body $jsonBody
-    return $result.Value
+    return $result
 }

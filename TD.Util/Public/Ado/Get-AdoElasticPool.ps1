@@ -1,4 +1,4 @@
-function Get-AdoPool
+function Get-AdoElasticPool
 {
     param(
         [alias('u', 'Uri')][string]$AdoUri,
@@ -8,7 +8,7 @@ function Get-AdoPool
         $ApiVersion = '7.0'
     )
 
-    $url = "$(Get-AdoUri -Uri $AdoUri -Organization $Organization)/_apis/distributedtask/pools/$($PoolId)?api-version=$ApiVersion"
+    $url = "$(Get-AdoUri -Uri $AdoUri -Organization $Organization)/_apis/distributedtask/elasticpools/$($PoolId)?api-version=$ApiVersion"
     $p = Invoke-RestMethod -Method Get -Uri $url -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -ContentType 'application/json' -TimeoutSec 60
     return $p
 }
