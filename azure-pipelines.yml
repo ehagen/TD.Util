@@ -1,47 +1,62 @@
 variables:
-- group: td.deploy
+  - group: td.deploy
 
 jobs:
   - job: BuildModule
 
     pool:
-      vmImage: 'windows-2022'
+      vmImage: "windows-2022"
 
     steps:
-      - task: NuGetToolInstaller@0
+      - task: NuGetToolInstaller@1
         inputs:
           checkLatest: true
-  
-      - task: DownloadSecureFile@1
-        displayName: 'Download secure file'
-        inputs:
-          secureFile: '4b113b89-08c3-4d7c-9326-d06d36fe045d'
 
-      - pwsh: ./build.ps1
-        displayName: 'Build and Test'
+      - task: NuGetAuthenticate@1
+
+      - task: AzurePowerShell@5
+        displayName: "Build and Test"
         condition: and(succeeded(), ne(variables['BuildType'], 'release') )
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-          CertPassword: $(CertPassword)
+          CodeSigningAccountName: $(CodeSigningAccountName)
+          CertificateProfileName: $(CertificateProfileName)
+          SigningEndpoint: $(SigningEndpoint)
+        inputs:
+          azureSubscription: "vs-sub"
+          scriptType: filePath
+          scriptPath: "./build.ps1"
+          scriptArguments: ""
+          azurePowerShellVersion: latestVersion
+          pwsh: true
 
-      - pwsh: ./build.ps1 -Publish $true
-        displayName: 'Build, Test and Publish'
+      - task: AzurePowerShell@5
+        displayName: "Build, Test and Publish"
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['Build.Reason'], 'Schedule'), eq(variables['BuildType'], 'release') )
         env:
           SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-          CertPassword: $(CertPassword)
-      
+          CodeSigningAccountName: $(CodeSigningAccountName)
+          CertificateProfileName: $(CertificateProfileName)
+          SigningEndpoint: $(SigningEndpoint)
+        inputs:
+          azureSubscription: "vs-sub"
+          scriptType: filePath
+          scriptPath: "./build.ps1"
+          scriptArguments: "-Publish $true"
+          azurePowerShellVersion: latestVersion
+          pwsh: true
+
       - task: PublishTestResults@2
         inputs:
           testRunner: "NUnit"
           testResultsFiles: "**/Test-*.xml"
           testRunTitle: "Unit Tests"
           failTaskOnFailedTests: true
-        displayName: 'Publish Test Results **/Test-*.xml'
+        displayName: "Publish Test Results **/Test-*.xml"
         condition: succeededOrFailed()
-                
+
       - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifacts'
+        displayName: "Publish Artifacts"
         inputs:
           PathtoPublish: output
           ArtifactName: drop
