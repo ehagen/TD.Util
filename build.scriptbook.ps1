@@ -16,7 +16,7 @@ $PSBPreference.Build.CompileModule = $true
 $PSBPreference.Test.ScriptAnalysisEnabled = $true
 $PSBPreference.Test.CodeCoverage.Enabled = $true
 $PSBPreference.Test.ScriptAnalysis.SettingsPath = './Tests/ScriptAnalyzerSettings.psd1'
-$PSBPreference.Docs.RootDir = "./output/gen-docs"    
+$PSBPreference.Docs.RootDir = "./output/gen-docs"
 $publish = $Parameters.Publish
 
 Task EnvironmentInfo {
@@ -33,33 +33,28 @@ Task EnvironmentInfo {
 Task EnvironmentVariables {
     Get-ChildItem env:
 }
-    
+
 Task Sign -Depends Build {
-    $cert = $null
-    if ( (!!$env:SYSTEM_TEAMPROJECT) -and ( $IsWindows) )
+    if ($IsWindows)
     {
-        $certLoc = "$($env:AGENT_WORKFOLDER)/_temp/code-signing-cert.pfx"
-        try
-        {
-            $cert = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($certLoc, $env:CertPassword);
-            Write-Host "Loaded signing cert";
+        Install-Module -Name TrustedSigning -Force -Scope CurrentUser -AllowClobber
+
+        $path = Join-Path $($env:BHBuildOutput) '.\'
+        $params = @{
+            Endpoint               = $env:SigningEndpoint
+            CodeSigningAccountName = $env:CodeSigningAccountName
+            CertificateProfileName = $env:CertificateProfileName
+            FilesFolder            = $path
+            FilesFolderFilter      = "psd1,psm1"
+            FileDigest             = "SHA256"
+            TimestampRfc3161       = "http://timestamp.acs.microsoft.com"
+            TimestampDigest        = "SHA256"
         }
-        catch
-        {
-            Write-Host "Unable to load certificate from '$certLoc'" + $_
-        }
-    }
-    if ( (!$cert) -and ( $IsWindows) )
-    {
-        $cert = Get-ChildItem -Path "Cert:\CurrentUser\My" -CodeSigningCert -ErrorAction Ignore | Sort-Object NotAfter | Select-Object -First 1
-    }
-    if ($cert)
-    {
-        Get-ChildItem (Join-Path $($env:BHBuildOutput) '.\TD.Util.*') | Set-AuthenticodeSignature -Certificate $cert -TimestampServer 'http://timestamp.digicert.com'
+        Invoke-TrustedSigning @params
     }
 }
 
-Task TestWithCoverage -depends Build {
+Task TestWithCoverage -Depends Build {
     Push-Location .\Tests
     try
     {
@@ -94,12 +89,12 @@ Task BuildMKDocs -PreCondition { $Publish } {
             ErrorAction = 'Stop'
         }
         $public = @(Get-ChildItem -Path (Join-Path -Path $moduleName -ChildPath 'public') @dotSourceParams )
-        
+
         (Get-Module $moduleName).ExportedFunctions.Keys | ForEach-Object {
             try
             {
                 $func = $_
-                $fn = $public | Where-Object { $_.Name -eq "$func.ps1"}
+                $fn = $public | Where-Object { $_.Name -eq "$func.ps1" }
                 $type = [System.IO.Path]::GetFileNameWithoutExtension((Split-Path -Leaf -Path (Split-Path -Parent -Path $fn)))
                 New-MarkdownHelp -Command $func -OutputFolder (Join-Path $path $type) -Force -Metadata @{ } | Out-Null
                 $map[$func] = $type
@@ -185,7 +180,7 @@ Task PublishModule -PreCondition { $Publish } {
     }
 }
 
-Task default -depends `
+Task default -Depends `
     EnvironmentInfo, `
     EnvironmentVariables, `
     Build, `
