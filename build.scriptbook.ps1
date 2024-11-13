@@ -49,6 +49,7 @@ Task Sign -Depends Build {
             FileDigest             = "SHA256"
             TimestampRfc3161       = "http://timestamp.acs.microsoft.com"
             TimestampDigest        = "SHA256"
+            Timeout                = 600
         }
         Invoke-TrustedSigning @params
     }
