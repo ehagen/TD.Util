@@ -1,7 +1,7 @@
 function Get-AdoProjectBuilds
 {
     param(
-        [ValidateNotNullOrEmpty()][alias('u', 'Uri')][string]$AdoUri,
+        [alias('u', 'Uri')][string]$AdoUri,
         [ValidateNotNullOrEmpty()][alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
         [ValidateNotNullOrEmpty()]$Organization,
         $Project = '',
@@ -23,12 +23,12 @@ function Get-AdoProjectBuilds
 
     if ([string]::IsNullOrEmpty($Project))
     {
-        $projects = Get-AdoProjects @params        
+        $projects = Get-AdoProjects @params
     }
     else
     {
         $projects = Get-AdoProjects @params -Project $Project
-    }    
+    }
 
     foreach ($prj in $projects)
     {
@@ -113,7 +113,7 @@ function Get-AdoProjectBuilds
                         HasScanning = $hasScanning
                     })
                 $cnt++
-            }            
+            }
 
             if ($IncludeMissingBuilds.IsPresent -and !$added -and (-not($definition.Name.StartsWith('xxx'))) )
             {

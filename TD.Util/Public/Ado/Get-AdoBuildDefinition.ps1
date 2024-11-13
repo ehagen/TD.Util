@@ -1,7 +1,7 @@
 function Get-AdoBuildDefinition
 {
     param(
-        [ValidateNotNullOrEmpty()][alias('u', 'Uri')][string]$AdoUri,
+        [alias('u', 'Uri')][string]$AdoUri,
         [ValidateNotNullOrEmpty()][alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
         [ValidateNotNullOrEmpty()]$Organization,
         [ValidateNotNullOrEmpty()]$Project,

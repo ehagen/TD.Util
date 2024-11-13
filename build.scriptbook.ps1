@@ -35,7 +35,7 @@ Task EnvironmentVariables {
 }
 
 Task Sign -Depends Build {
-    if ($IsWindows)
+    if ($IsWindows -and $env:SigningEndpoint -and $env:CodeSigningAccountName -and $env:CertificateProfileName)
     {
         Install-Module -Name TrustedSigning -Force -Scope CurrentUser -AllowClobber
 
@@ -146,12 +146,14 @@ Task BuildMKDocs -PreCondition { $Publish } {
 
     if (!(Get-Command mkdocs -ErrorAction Ignore))
     {
+        $materialVersion = "9.5.23"
         if ($IsWindows)
         {
             if (Get-Command choco -ErrorAction Ignore)
             {
+                #TODO: Add check in Admin mode
                 choco install mkdocs -y --no-progress
-                pip install "mkdocs-material==6.2.8" --force-reinstall --disable-pip-version-check
+                pip install "mkdocs-material==$($materialVersion)" --force-reinstall --disable-pip-version-check
             }
             else
             {
@@ -161,7 +163,8 @@ Task BuildMKDocs -PreCondition { $Publish } {
         elseif ($IsMacOS)
         {
             brew install mkdocs
-            pip3 install "mkdocs-material==6.2.8" --force-reinstall --disable-pip-version-check
+            pip3 install "mkdocs-material==$($materialVersion)" --force-reinstall --disable-pip-version-check
+            #pip3 install pymdown-extensions --force
         }
         else
         {
@@ -169,7 +172,7 @@ Task BuildMKDocs -PreCondition { $Publish } {
         }
     }
 
-    mkdocs build
+    mkdocs build --clean
 }
 
 Task PublishModule -PreCondition { $Publish } {

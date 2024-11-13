@@ -1,7 +1,7 @@
 function Update-AdoPipelineApproval
-{ 
+{
     param(
-        [ValidateNotNullOrEmpty()][alias('u', 'Uri')][string]$AdoUri,
+        [alias('u', 'Uri')][string]$AdoUri,
         [ValidateNotNullOrEmpty()][alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
         [ValidateNotNullOrEmpty()]$Organization,
         [ValidateNotNullOrEmpty()]$Project,
@@ -9,7 +9,7 @@ function Update-AdoPipelineApproval
         [ValidateSet('approved', 'canceled', 'skipped', 'rejected')]$Status,
         $Comment = '',
         $ApiVersion = '6.1-preview.1'
-    ) 
+    )
 
     $url = "$(Get-AdoUri -Uri $AdoUri -Project $Project -Organization $Organization)/_apis/pipelines/approvals?api-version=$($ApiVersion)"
     $approvals = @(
@@ -23,4 +23,4 @@ function Update-AdoPipelineApproval
     $result = Invoke-RestMethod -Method Patch -Uri $url -Body $body -Headers @{Authorization = "$(New-AdoAuthenticationToken $AdoAuthToken)" } -ContentType 'application/json' -TimeoutSec 60
 
     return $result
-} 
+}

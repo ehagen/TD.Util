@@ -1,7 +1,7 @@
 function Get-AdoPipelineRunOutput
 {
     param(
-        [ValidateNotNullOrEmpty()][alias('u', 'Uri')][string]$AdoUri,
+        [alias('u', 'Uri')][string]$AdoUri,
         [ValidateNotNullOrEmpty()][alias('t', 'Token', 'Pat')][string]$AdoAuthToken,
         [ValidateNotNullOrEmpty()]$Organization,
         [ValidateNotNullOrEmpty()]$Project,
@@ -21,7 +21,7 @@ function Get-AdoPipelineRunOutput
     $output = $null
     $logs = Get-AdoPipelineRunLogs @params -Id $Id -RunId $RunId
     foreach ($log in $logs)
-    {        
+    {
         $l = Get-AdoPipelineRunLog @params -Id $Id -RunId $RunId -LogId $log.id
         $contents = Invoke-RestMethod -Uri $l.signedContent.url
         $output += $contents
