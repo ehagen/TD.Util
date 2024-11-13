@@ -3,12 +3,14 @@ param(
     [bool]$Publish = $false
 )
 
-if (-not (Get-Module -ListAvailable -Name 'Scriptbook')) 
+Set-Location $PSScriptRoot
+
+if (-not (Get-Module -ListAvailable -Name 'Scriptbook'))
 {
     Install-Module Scriptbook -Scope CurrentUser -Force -AllowClobber -Repository PSGallery
 }
 
-Import-Module Scriptbook -Force -Args @{ 
+Import-Module Scriptbook -Force -Args @{
     Quiet   = $false
     Reset   = $false
     Depends = @(
@@ -22,7 +24,7 @@ Import-Module Scriptbook -Force -Args @{
             Force              = $true
             SkipPublisherCheck = $true
         }
-    ) 
+    )
 }
 
 $parameters = @{ Publish = $Publish }

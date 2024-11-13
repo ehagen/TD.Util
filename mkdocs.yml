@@ -2,7 +2,7 @@ site_name: TD.Util
 site_author: Edwin Hagen
 repo_name: TD.Util
 repo_url: https://github.com/ehagen/TD.Util
-copyright: "(c) Edwin Hagen / Tedon Technology BV. All rights reserved."
+copyright: "(c) [2020-2024] Edwin Hagen / Tedon Technology BV. All rights reserved."
 
 theme:
   name: material
@@ -11,14 +11,34 @@ theme:
   features:
     - navigation.tabs
     - navigation.tabs.sticky
+    - navigation.tracking
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+  font:
+    text: Fira Sans
+    code: Fira Code
   palette:
-    scheme: preference
-    primary: cyan
-    accent: cyan
+    - scheme: default
+      primary: cyan
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Light Mode
+    - scheme: slate
+      primary: cyan
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Dark Mode
 
 markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.details
   - admonition
   - meta
 
